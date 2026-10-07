@@ -1,0 +1,8 @@
+# Analysis, figures and tests (CPU only; Linux, macOS or Windows; Python 3.13).
+# These are the versions with which the published processed tables and figures were reproduced.
+# Matplotlib 3.10.9 is also the version recorded in the published PNG files. The NumPy and SciPy
+# versions of the experiment host were not recorded.
+numpy==2.5.3
+scipy==1.18.1
+matplotlib==3.10.9
+pytest==9.1.1

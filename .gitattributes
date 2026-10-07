@@ -1,0 +1,16 @@
+# Source files always use LF, so that scripts run on Linux even from a Windows checkout.
+*.py text eol=lf
+*.sh text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
+*.ini text eol=lf
+.gitignore text eol=lf
+.gitattributes text eol=lf
+
+# Data and generated outputs are stored byte for byte (no line-ending conversion), so that the
+# reproducibility check and file checksums give the same result on every platform. CSV files use CRLF
+# line endings (RFC 4180, Python csv default); JSONL and logs use LF. (Last, so that it overrides the
+# rules above for files under results/.)
+results/** -text
+*.png binary
+*.gz binary

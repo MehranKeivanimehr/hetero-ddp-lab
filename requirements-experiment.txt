@@ -1,0 +1,8 @@
+# Running the GPU experiments (Linux, NVIDIA driver providing libnvidia-ml).
+# Recorded on the study host (results/env/topology.json): Python 3.13.12, PyTorch 2.6.0+cu124,
+# torchvision 0.21.0+cu124, CUDA runtime 12.4, cuDNN 9.1, NCCL 2.21.5 (bundled with the CUDA 12.4 wheels),
+# NVIDIA driver 580.173.02. The NCCL log parser in hddp/run.py depends on the NCCL 2.21 log format.
+--extra-index-url https://download.pytorch.org/whl/cu124
+torch==2.6.0+cu124
+torchvision==0.21.0+cu124
+-r requirements-analysis.txt

@@ -1,0 +1,109 @@
+setting,model,algo_requested,bucket,allreduce_selected,allreduce_algos,honored,env_lines,transports
+4gpu,vit_b_16,Tree,1,"{""Tree/Simple"": 151, ""Tree/LL"": 3}",Tree,True,NCCL_ALGO set by environment to Tree|NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM|SHM/direct/direct
+4gpu,vit_b_16,Tree,25,"{""Tree/Simple"": 40}",Tree,True,NCCL_ALGO set by environment to Tree|NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM|SHM/direct/direct
+4gpu,vit_b_16,Tree,16,"{""Tree/Simple"": 58}",Tree,True,NCCL_ALGO set by environment to Tree|NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM|SHM/direct/direct
+4gpu,vit_b_16,Tree,4,"{""Tree/Simple"": 112}",Tree,True,NCCL_ALGO set by environment to Tree|NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM|SHM/direct/direct
+4gpu,vit_b_16,Tree,64,"{""Tree/Simple"": 16}",Tree,True,NCCL_ALGO set by environment to Tree|NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM|SHM/direct/direct
+4gpu,vit_b_16,Tree,128,"{""Tree/Simple"": 10}",Tree,True,NCCL_ALGO set by environment to Tree|NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM|SHM/direct/direct
+2gpu_pcie,vit_b_16,Tree,128,"{""Tree/Simple"": 10}",Tree,True,NCCL_ALGO set by environment to Tree|NCCL_P2P_LEVEL set by environment to NVL,SHM/direct/direct
+2gpu_pcie,vit_b_16,Tree,4,"{""Tree/Simple"": 112}",Tree,True,NCCL_ALGO set by environment to Tree|NCCL_P2P_LEVEL set by environment to NVL,SHM/direct/direct
+2gpu_pcie,vit_b_16,Tree,16,"{""Tree/Simple"": 58}",Tree,True,NCCL_ALGO set by environment to Tree|NCCL_P2P_LEVEL set by environment to NVL,SHM/direct/direct
+2gpu_pcie,vit_b_16,Tree,64,"{""Tree/Simple"": 16}",Tree,True,NCCL_ALGO set by environment to Tree|NCCL_P2P_LEVEL set by environment to NVL,SHM/direct/direct
+2gpu_pcie,vit_b_16,Tree,1,"{""Tree/Simple"": 151, ""Tree/LL"": 3}",Tree,True,NCCL_ALGO set by environment to Tree|NCCL_P2P_LEVEL set by environment to NVL,SHM/direct/direct
+2gpu_pcie,vit_b_16,Tree,25,"{""Tree/Simple"": 40}",Tree,True,NCCL_ALGO set by environment to Tree|NCCL_P2P_LEVEL set by environment to NVL,SHM/direct/direct
+2gpu_nvlink,vit_b_16,Tree,1,"{""Tree/Simple"": 151, ""Tree/LL"": 3}",Tree,True,NCCL_ALGO set by environment to Tree|NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM
+2gpu_nvlink,vit_b_16,Tree,128,"{""Tree/Simple"": 10}",Tree,True,NCCL_ALGO set by environment to Tree|NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM
+2gpu_nvlink,vit_b_16,Tree,16,"{""Tree/Simple"": 58}",Tree,True,NCCL_ALGO set by environment to Tree|NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM
+2gpu_nvlink,vit_b_16,Tree,4,"{""Tree/Simple"": 112}",Tree,True,NCCL_ALGO set by environment to Tree|NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM
+2gpu_nvlink,vit_b_16,Tree,64,"{""Tree/Simple"": 16}",Tree,True,NCCL_ALGO set by environment to Tree|NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM
+2gpu_nvlink,vit_b_16,Tree,25,"{""Tree/Simple"": 40}",Tree,True,NCCL_ALGO set by environment to Tree|NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM
+4gpu,resnet50,Ring,1,"{""Ring/Simple"": 103, ""Ring/LL"": 3}",Ring,True,NCCL_ALGO set by environment to Ring|NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM|SHM/direct/direct
+4gpu,resnet50,Ring,64,"{""Ring/Simple"": 7}",Ring,True,NCCL_ALGO set by environment to Ring|NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM|SHM/direct/direct
+4gpu,resnet50,Ring,128,"{""Ring/Simple"": 4}",Ring,True,NCCL_ALGO set by environment to Ring|NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM|SHM/direct/direct
+4gpu,resnet50,Ring,16,"{""Ring/Simple"": 19}",Ring,True,NCCL_ALGO set by environment to Ring|NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM|SHM/direct/direct
+4gpu,resnet50,Ring,4,"{""Ring/Simple"": 55, ""Ring/LL"": 3}",Ring,True,NCCL_ALGO set by environment to Ring|NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM|SHM/direct/direct
+4gpu,resnet50,Ring,25,"{""Ring/Simple"": 13}",Ring,True,NCCL_ALGO set by environment to Ring|NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM|SHM/direct/direct
+4gpu,vit_b_16,Auto,25,"{""Tree/Simple"": 1, ""Ring/Simple"": 39}",Ring|Tree,,NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM|SHM/direct/direct
+4gpu,vit_b_16,Auto,16,"{""Tree/Simple"": 1, ""Ring/Simple"": 57}",Ring|Tree,,NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM|SHM/direct/direct
+4gpu,vit_b_16,Auto,128,"{""Tree/Simple"": 7, ""Ring/Simple"": 3}",Ring|Tree,,NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM|SHM/direct/direct
+4gpu,vit_b_16,Auto,64,"{""Tree/Simple"": 1, ""Ring/Simple"": 15}",Ring|Tree,,NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM|SHM/direct/direct
+4gpu,vit_b_16,Auto,4,"{""Tree/Simple"": 1, ""Ring/Simple"": 111}",Ring|Tree,,NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM|SHM/direct/direct
+4gpu,vit_b_16,Auto,1,"{""Tree/Simple"": 1, ""Ring/Simple"": 150, ""Ring/LL"": 3}",Ring|Tree,,NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM|SHM/direct/direct
+2gpu_nvlink,resnet50,Ring,128,"{""Ring/Simple"": 4}",Ring,True,NCCL_ALGO set by environment to Ring|NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM
+2gpu_nvlink,resnet50,Ring,4,"{""Ring/Simple"": 55, ""Ring/LL"": 3}",Ring,True,NCCL_ALGO set by environment to Ring|NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM
+2gpu_nvlink,resnet50,Ring,1,"{""Ring/Simple"": 106}",Ring,True,NCCL_ALGO set by environment to Ring|NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM
+2gpu_nvlink,resnet50,Ring,16,"{""Ring/Simple"": 19}",Ring,True,NCCL_ALGO set by environment to Ring|NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM
+2gpu_nvlink,resnet50,Ring,25,"{""Ring/Simple"": 13}",Ring,True,NCCL_ALGO set by environment to Ring|NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM
+2gpu_nvlink,resnet50,Ring,64,"{""Ring/Simple"": 7}",Ring,True,NCCL_ALGO set by environment to Ring|NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM
+2gpu_pcie,resnet50,Tree,64,"{""Tree/Simple"": 7}",Tree,True,NCCL_ALGO set by environment to Tree|NCCL_P2P_LEVEL set by environment to NVL,SHM/direct/direct
+2gpu_pcie,resnet50,Tree,1,"{""Tree/Simple"": 106}",Tree,True,NCCL_ALGO set by environment to Tree|NCCL_P2P_LEVEL set by environment to NVL,SHM/direct/direct
+2gpu_pcie,resnet50,Tree,128,"{""Tree/Simple"": 4}",Tree,True,NCCL_ALGO set by environment to Tree|NCCL_P2P_LEVEL set by environment to NVL,SHM/direct/direct
+2gpu_pcie,resnet50,Tree,4,"{""Tree/Simple"": 55, ""Tree/LL"": 3}",Tree,True,NCCL_ALGO set by environment to Tree|NCCL_P2P_LEVEL set by environment to NVL,SHM/direct/direct
+2gpu_pcie,resnet50,Tree,16,"{""Tree/Simple"": 19}",Tree,True,NCCL_ALGO set by environment to Tree|NCCL_P2P_LEVEL set by environment to NVL,SHM/direct/direct
+2gpu_pcie,resnet50,Tree,25,"{""Tree/Simple"": 13}",Tree,True,NCCL_ALGO set by environment to Tree|NCCL_P2P_LEVEL set by environment to NVL,SHM/direct/direct
+2gpu_nvlink,resnet50,Auto,16,"{""Ring/Simple"": 19}",Ring,,NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM
+2gpu_nvlink,resnet50,Auto,25,"{""Ring/Simple"": 13}",Ring,,NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM
+2gpu_nvlink,resnet50,Auto,4,"{""Ring/Simple"": 55, ""Ring/LL"": 3}",Ring,,NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM
+2gpu_nvlink,resnet50,Auto,128,"{""Ring/Simple"": 4}",Ring,,NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM
+2gpu_nvlink,resnet50,Auto,64,"{""Ring/Simple"": 7}",Ring,,NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM
+2gpu_nvlink,resnet50,Auto,1,"{""Ring/Simple"": 106}",Ring,,NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM
+2gpu_pcie,resnet50,Ring,1,"{""Ring/Simple"": 106}",Ring,True,NCCL_ALGO set by environment to Ring|NCCL_P2P_LEVEL set by environment to NVL,SHM/direct/direct
+2gpu_pcie,resnet50,Ring,128,"{""Ring/Simple"": 4}",Ring,True,NCCL_ALGO set by environment to Ring|NCCL_P2P_LEVEL set by environment to NVL,SHM/direct/direct
+2gpu_pcie,resnet50,Ring,4,"{""Ring/Simple"": 55, ""Ring/LL"": 3}",Ring,True,NCCL_ALGO set by environment to Ring|NCCL_P2P_LEVEL set by environment to NVL,SHM/direct/direct
+2gpu_pcie,resnet50,Ring,25,"{""Ring/Simple"": 13}",Ring,True,NCCL_ALGO set by environment to Ring|NCCL_P2P_LEVEL set by environment to NVL,SHM/direct/direct
+2gpu_pcie,resnet50,Ring,16,"{""Ring/Simple"": 19}",Ring,True,NCCL_ALGO set by environment to Ring|NCCL_P2P_LEVEL set by environment to NVL,SHM/direct/direct
+2gpu_pcie,resnet50,Ring,64,"{""Ring/Simple"": 7}",Ring,True,NCCL_ALGO set by environment to Ring|NCCL_P2P_LEVEL set by environment to NVL,SHM/direct/direct
+2gpu_nvlink,vit_b_16,Auto,1,"{""Ring/Simple"": 151, ""Ring/LL"": 3}",Ring,,NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM
+2gpu_nvlink,vit_b_16,Auto,4,"{""Ring/Simple"": 112}",Ring,,NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM
+2gpu_nvlink,vit_b_16,Auto,64,"{""Ring/Simple"": 16}",Ring,,NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM
+2gpu_nvlink,vit_b_16,Auto,16,"{""Ring/Simple"": 58}",Ring,,NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM
+2gpu_nvlink,vit_b_16,Auto,128,"{""Ring/Simple"": 10}",Ring,,NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM
+2gpu_nvlink,vit_b_16,Auto,25,"{""Ring/Simple"": 40}",Ring,,NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM
+4gpu,resnet50,Tree,4,"{""Tree/Simple"": 55, ""Tree/LL"": 3}",Tree,True,NCCL_ALGO set by environment to Tree|NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM|SHM/direct/direct
+4gpu,resnet50,Tree,64,"{""Tree/Simple"": 7}",Tree,True,NCCL_ALGO set by environment to Tree|NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM|SHM/direct/direct
+4gpu,resnet50,Tree,128,"{""Tree/Simple"": 4}",Tree,True,NCCL_ALGO set by environment to Tree|NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM|SHM/direct/direct
+4gpu,resnet50,Tree,25,"{""Tree/Simple"": 13}",Tree,True,NCCL_ALGO set by environment to Tree|NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM|SHM/direct/direct
+4gpu,resnet50,Tree,16,"{""Tree/Simple"": 19}",Tree,True,NCCL_ALGO set by environment to Tree|NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM|SHM/direct/direct
+4gpu,resnet50,Tree,1,"{""Tree/Simple"": 103, ""Tree/LL"": 3}",Tree,True,NCCL_ALGO set by environment to Tree|NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM|SHM/direct/direct
+4gpu,resnet50,Auto,64,"{""Ring/Simple"": 7}",Ring,,NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM|SHM/direct/direct
+4gpu,resnet50,Auto,128,"{""Ring/Simple"": 4}",Ring,,NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM|SHM/direct/direct
+4gpu,resnet50,Auto,1,"{""Ring/Simple"": 103, ""Ring/LL"": 3}",Ring,,NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM|SHM/direct/direct
+4gpu,resnet50,Auto,16,"{""Ring/Simple"": 19}",Ring,,NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM|SHM/direct/direct
+4gpu,resnet50,Auto,4,"{""Ring/Simple"": 55, ""Ring/LL"": 3}",Ring,,NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM|SHM/direct/direct
+4gpu,resnet50,Auto,25,"{""Ring/Simple"": 13}",Ring,,NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM|SHM/direct/direct
+2gpu_pcie,resnet50,Auto,128,"{""Ring/Simple"": 4}",Ring,,NCCL_P2P_LEVEL set by environment to NVL,SHM/direct/direct
+2gpu_pcie,resnet50,Auto,25,"{""Ring/Simple"": 13}",Ring,,NCCL_P2P_LEVEL set by environment to NVL,SHM/direct/direct
+2gpu_pcie,resnet50,Auto,4,"{""Ring/Simple"": 55, ""Ring/LL"": 3}",Ring,,NCCL_P2P_LEVEL set by environment to NVL,SHM/direct/direct
+2gpu_pcie,resnet50,Auto,1,"{""Ring/Simple"": 106}",Ring,,NCCL_P2P_LEVEL set by environment to NVL,SHM/direct/direct
+2gpu_pcie,resnet50,Auto,16,"{""Ring/Simple"": 19}",Ring,,NCCL_P2P_LEVEL set by environment to NVL,SHM/direct/direct
+2gpu_pcie,resnet50,Auto,64,"{""Ring/Simple"": 7}",Ring,,NCCL_P2P_LEVEL set by environment to NVL,SHM/direct/direct
+4gpu,vit_b_16,Ring,128,"{""Ring/Simple"": 10}",Ring,True,NCCL_ALGO set by environment to Ring|NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM|SHM/direct/direct
+4gpu,vit_b_16,Ring,16,"{""Ring/Simple"": 58}",Ring,True,NCCL_ALGO set by environment to Ring|NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM|SHM/direct/direct
+4gpu,vit_b_16,Ring,1,"{""Ring/Simple"": 151, ""Ring/LL"": 3}",Ring,True,NCCL_ALGO set by environment to Ring|NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM|SHM/direct/direct
+4gpu,vit_b_16,Ring,25,"{""Ring/Simple"": 40}",Ring,True,NCCL_ALGO set by environment to Ring|NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM|SHM/direct/direct
+4gpu,vit_b_16,Ring,64,"{""Ring/Simple"": 16}",Ring,True,NCCL_ALGO set by environment to Ring|NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM|SHM/direct/direct
+4gpu,vit_b_16,Ring,4,"{""Ring/Simple"": 112}",Ring,True,NCCL_ALGO set by environment to Ring|NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM|SHM/direct/direct
+2gpu_pcie,vit_b_16,Ring,16,"{""Ring/Simple"": 58}",Ring,True,NCCL_ALGO set by environment to Ring|NCCL_P2P_LEVEL set by environment to NVL,SHM/direct/direct
+2gpu_pcie,vit_b_16,Ring,1,"{""Ring/Simple"": 151, ""Ring/LL"": 3}",Ring,True,NCCL_ALGO set by environment to Ring|NCCL_P2P_LEVEL set by environment to NVL,SHM/direct/direct
+2gpu_pcie,vit_b_16,Ring,128,"{""Ring/Simple"": 10}",Ring,True,NCCL_ALGO set by environment to Ring|NCCL_P2P_LEVEL set by environment to NVL,SHM/direct/direct
+2gpu_pcie,vit_b_16,Ring,25,"{""Ring/Simple"": 40}",Ring,True,NCCL_ALGO set by environment to Ring|NCCL_P2P_LEVEL set by environment to NVL,SHM/direct/direct
+2gpu_pcie,vit_b_16,Ring,64,"{""Ring/Simple"": 16}",Ring,True,NCCL_ALGO set by environment to Ring|NCCL_P2P_LEVEL set by environment to NVL,SHM/direct/direct
+2gpu_pcie,vit_b_16,Ring,4,"{""Ring/Simple"": 112}",Ring,True,NCCL_ALGO set by environment to Ring|NCCL_P2P_LEVEL set by environment to NVL,SHM/direct/direct
+2gpu_nvlink,resnet50,Tree,25,"{""Tree/Simple"": 13}",Tree,True,NCCL_ALGO set by environment to Tree|NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM
+2gpu_nvlink,resnet50,Tree,128,"{""Tree/Simple"": 4}",Tree,True,NCCL_ALGO set by environment to Tree|NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM
+2gpu_nvlink,resnet50,Tree,1,"{""Tree/Simple"": 106}",Tree,True,NCCL_ALGO set by environment to Tree|NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM
+2gpu_nvlink,resnet50,Tree,16,"{""Tree/Simple"": 19}",Tree,True,NCCL_ALGO set by environment to Tree|NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM
+2gpu_nvlink,resnet50,Tree,4,"{""Tree/Simple"": 55, ""Tree/LL"": 3}",Tree,True,NCCL_ALGO set by environment to Tree|NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM
+2gpu_nvlink,resnet50,Tree,64,"{""Tree/Simple"": 7}",Tree,True,NCCL_ALGO set by environment to Tree|NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM
+2gpu_nvlink,vit_b_16,Ring,64,"{""Ring/Simple"": 16}",Ring,True,NCCL_ALGO set by environment to Ring|NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM
+2gpu_nvlink,vit_b_16,Ring,25,"{""Ring/Simple"": 40}",Ring,True,NCCL_ALGO set by environment to Ring|NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM
+2gpu_nvlink,vit_b_16,Ring,128,"{""Ring/Simple"": 10}",Ring,True,NCCL_ALGO set by environment to Ring|NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM
+2gpu_nvlink,vit_b_16,Ring,4,"{""Ring/Simple"": 112}",Ring,True,NCCL_ALGO set by environment to Ring|NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM
+2gpu_nvlink,vit_b_16,Ring,16,"{""Ring/Simple"": 58}",Ring,True,NCCL_ALGO set by environment to Ring|NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM
+2gpu_nvlink,vit_b_16,Ring,1,"{""Ring/Simple"": 151, ""Ring/LL"": 3}",Ring,True,NCCL_ALGO set by environment to Ring|NCCL_P2P_LEVEL set by environment to NVL,P2P/CUMEM
+2gpu_pcie,vit_b_16,Auto,64,"{""Ring/Simple"": 16}",Ring,,NCCL_P2P_LEVEL set by environment to NVL,SHM/direct/direct
+2gpu_pcie,vit_b_16,Auto,1,"{""Ring/Simple"": 151, ""Ring/LL"": 3}",Ring,,NCCL_P2P_LEVEL set by environment to NVL,SHM/direct/direct
+2gpu_pcie,vit_b_16,Auto,25,"{""Ring/Simple"": 40}",Ring,,NCCL_P2P_LEVEL set by environment to NVL,SHM/direct/direct
+2gpu_pcie,vit_b_16,Auto,4,"{""Ring/Simple"": 112}",Ring,,NCCL_P2P_LEVEL set by environment to NVL,SHM/direct/direct
+2gpu_pcie,vit_b_16,Auto,128,"{""Ring/Simple"": 10}",Ring,,NCCL_P2P_LEVEL set by environment to NVL,SHM/direct/direct
+2gpu_pcie,vit_b_16,Auto,16,"{""Ring/Simple"": 58}",Ring,,NCCL_P2P_LEVEL set by environment to NVL,SHM/direct/direct

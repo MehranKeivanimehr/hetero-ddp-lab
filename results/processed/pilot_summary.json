@@ -1,0 +1,1379 @@
+{
+ "stage": "pilot",
+ "n_trials": 56,
+ "launch_status": {
+  "ok": 12
+ },
+ "completeness": {
+  "planned_conditions": 56,
+  "clean_conditions": 56,
+  "missing": []
+ },
+ "failed_launches": [],
+ "data_quality": {
+  "conditions_excluded_contaminated_or_failed_attempts": {
+   "conditions": 0,
+   "attempts_with_foreign_procs": [],
+   "attempts_with_forward_time_anomaly": [],
+   "attempts_with_cross_trial_deviation": [],
+   "kept_attempts_max_condition_dev_pct": null
+  },
+  "forward_time_reference_ms": {
+   "vit_b_16": 22.20651333333334,
+   "resnet50": 24.811745000000002
+  },
+  "forward_time_anomalies_in_used_data": [],
+  "contaminated_attempts": [],
+  "trials_with_foreign_gpu_procs": 0,
+  "throttle_reasons_seen": {
+   "sw_power_cap": 56
+  },
+  "energy_sampled_vs_counter_pct": {
+   "mean": 0.03877435964357527,
+   "max_abs": 8.742404817512822
+  },
+  "max_rank_period_spread_ms": 0.5606862068965484,
+  "temp_max_c": 69.0
+ },
+ "delay_calibration": [
+  {
+   "setting": "4gpu",
+   "model": "resnet50",
+   "delay_req": 10,
+   "delay_meas_mean": 9.963813888888888,
+   "delay_meas_min": 9.907713333333334,
+   "delay_meas_max": 9.996250000000002,
+   "within_step_sd_mean": 0.043996330311471904,
+   "rel_err_pct": -0.3618611111111214,
+   "n": 6
+  },
+  {
+   "setting": "4gpu",
+   "model": "resnet50",
+   "delay_req": 20,
+   "delay_meas_mean": 19.94718333333333,
+   "delay_meas_min": 19.85485,
+   "delay_meas_max": 20.039516666666664,
+   "within_step_sd_mean": 0.09278564363550611,
+   "rel_err_pct": -0.26408333333334255,
+   "n": 2
+  },
+  {
+   "setting": "4gpu",
+   "model": "resnet50",
+   "delay_req": 40,
+   "delay_meas_mean": 39.99160166666667,
+   "delay_meas_min": 39.96826666666666,
+   "delay_meas_max": 40.03586,
+   "within_step_sd_mean": 0.057356180023532176,
+   "rel_err_pct": -0.020995833333330438,
+   "n": 6
+  },
+  {
+   "setting": "4gpu",
+   "model": "vit_b_16",
+   "delay_req": 10,
+   "delay_meas_mean": 9.98094388888889,
+   "delay_meas_min": 9.954816666666666,
+   "delay_meas_max": 9.993176666666669,
+   "within_step_sd_mean": 0.010932689895777082,
+   "rel_err_pct": -0.19056111111110496,
+   "n": 6
+  },
+  {
+   "setting": "4gpu",
+   "model": "vit_b_16",
+   "delay_req": 20,
+   "delay_meas_mean": 20.011865,
+   "delay_meas_min": 19.981630000000003,
+   "delay_meas_max": 20.0421,
+   "within_step_sd_mean": 0.04438222535056125,
+   "rel_err_pct": 0.05932500000000118,
+   "n": 2
+  },
+  {
+   "setting": "4gpu",
+   "model": "vit_b_16",
+   "delay_req": 40,
+   "delay_meas_mean": 39.951208888888885,
+   "delay_meas_min": 39.79732666666666,
+   "delay_meas_max": 39.98631333333333,
+   "within_step_sd_mean": 0.035645183299152595,
+   "rel_err_pct": -0.1219777777777864,
+   "n": 6
+  }
+ ],
+ "robustness": {
+  "A_mean_vs_median_step_delay_ge10": {
+   "n": 28,
+   "max_abs_diff": 0.025636139440577965,
+   "mean_abs_diff": 0.006497266664846116
+  },
+  "auto_vs_ring_where_nccl_chose_ring": {
+   "n": 0,
+   "max_abs_diff_pct": null,
+   "n_p_lt_0_05": 0,
+   "rows": []
+  }
+ },
+ "instrumentation_overhead": [
+  {
+   "setting": "4gpu",
+   "model": "resnet50",
+   "algo": "Auto",
+   "bucket": 1,
+   "step_ms_instrumented": 75.61789094827587,
+   "step_ms_plain": 74.83336810344828,
+   "overhead_pct": 1.048359661886502,
+   "n_on": 2,
+   "n_off": 2,
+   "welch_p": 0.06480967408095573
+  },
+  {
+   "setting": "4gpu",
+   "model": "resnet50",
+   "algo": "Auto",
+   "bucket": 25,
+   "step_ms_instrumented": 80.24544827586207,
+   "step_ms_plain": 80.0081573275862,
+   "overhead_pct": 0.29658344374099704,
+   "n_on": 2,
+   "n_off": 2,
+   "welch_p": 0.4842361755634861
+  },
+  {
+   "setting": "4gpu",
+   "model": "resnet50",
+   "algo": "Auto",
+   "bucket": 128,
+   "step_ms_instrumented": 87.87542931034484,
+   "step_ms_plain": 87.42809353448274,
+   "overhead_pct": 0.511661363959247,
+   "n_on": 2,
+   "n_off": 2,
+   "welch_p": 0.01956970433236971
+  },
+  {
+   "setting": "4gpu",
+   "model": "vit_b_16",
+   "algo": "Auto",
+   "bucket": 1,
+   "step_ms_instrumented": 130.2616077586207,
+   "step_ms_plain": 128.76511939655174,
+   "overhead_pct": 1.1621845800183634,
+   "n_on": 2,
+   "n_off": 2,
+   "welch_p": 0.23175865764283354
+  },
+  {
+   "setting": "4gpu",
+   "model": "vit_b_16",
+   "algo": "Auto",
+   "bucket": 25,
+   "step_ms_instrumented": 138.31986853448277,
+   "step_ms_plain": 136.88398318965517,
+   "overhead_pct": 1.0489798085712863,
+   "n_on": 2,
+   "n_off": 2,
+   "welch_p": 0.06434903181583009
+  },
+  {
+   "setting": "4gpu",
+   "model": "vit_b_16",
+   "algo": "Auto",
+   "bucket": 128,
+   "step_ms_instrumented": 120.91524612068966,
+   "step_ms_plain": 119.74695086206897,
+   "overhead_pct": 0.9756367491698339,
+   "n_on": 2,
+   "n_off": 2,
+   "welch_p": 0.0035534060463234714
+  }
+ ],
+ "nccl_verification_summary": {
+  "n": 108,
+  "forced_honored": 72,
+  "forced_not_honored": [],
+  "auto_selection": [
+   [
+    "2gpu_nvlink",
+    "resnet50",
+    1,
+    "Ring"
+   ],
+   [
+    "2gpu_nvlink",
+    "resnet50",
+    4,
+    "Ring"
+   ],
+   [
+    "2gpu_nvlink",
+    "resnet50",
+    16,
+    "Ring"
+   ],
+   [
+    "2gpu_nvlink",
+    "resnet50",
+    25,
+    "Ring"
+   ],
+   [
+    "2gpu_nvlink",
+    "resnet50",
+    64,
+    "Ring"
+   ],
+   [
+    "2gpu_nvlink",
+    "resnet50",
+    128,
+    "Ring"
+   ],
+   [
+    "2gpu_nvlink",
+    "vit_b_16",
+    1,
+    "Ring"
+   ],
+   [
+    "2gpu_nvlink",
+    "vit_b_16",
+    4,
+    "Ring"
+   ],
+   [
+    "2gpu_nvlink",
+    "vit_b_16",
+    16,
+    "Ring"
+   ],
+   [
+    "2gpu_nvlink",
+    "vit_b_16",
+    25,
+    "Ring"
+   ],
+   [
+    "2gpu_nvlink",
+    "vit_b_16",
+    64,
+    "Ring"
+   ],
+   [
+    "2gpu_nvlink",
+    "vit_b_16",
+    128,
+    "Ring"
+   ],
+   [
+    "2gpu_pcie",
+    "resnet50",
+    1,
+    "Ring"
+   ],
+   [
+    "2gpu_pcie",
+    "resnet50",
+    4,
+    "Ring"
+   ],
+   [
+    "2gpu_pcie",
+    "resnet50",
+    16,
+    "Ring"
+   ],
+   [
+    "2gpu_pcie",
+    "resnet50",
+    25,
+    "Ring"
+   ],
+   [
+    "2gpu_pcie",
+    "resnet50",
+    64,
+    "Ring"
+   ],
+   [
+    "2gpu_pcie",
+    "resnet50",
+    128,
+    "Ring"
+   ],
+   [
+    "2gpu_pcie",
+    "vit_b_16",
+    1,
+    "Ring"
+   ],
+   [
+    "2gpu_pcie",
+    "vit_b_16",
+    4,
+    "Ring"
+   ],
+   [
+    "2gpu_pcie",
+    "vit_b_16",
+    16,
+    "Ring"
+   ],
+   [
+    "2gpu_pcie",
+    "vit_b_16",
+    25,
+    "Ring"
+   ],
+   [
+    "2gpu_pcie",
+    "vit_b_16",
+    64,
+    "Ring"
+   ],
+   [
+    "2gpu_pcie",
+    "vit_b_16",
+    128,
+    "Ring"
+   ],
+   [
+    "4gpu",
+    "resnet50",
+    1,
+    "Ring"
+   ],
+   [
+    "4gpu",
+    "resnet50",
+    4,
+    "Ring"
+   ],
+   [
+    "4gpu",
+    "resnet50",
+    16,
+    "Ring"
+   ],
+   [
+    "4gpu",
+    "resnet50",
+    25,
+    "Ring"
+   ],
+   [
+    "4gpu",
+    "resnet50",
+    64,
+    "Ring"
+   ],
+   [
+    "4gpu",
+    "resnet50",
+    128,
+    "Ring"
+   ],
+   [
+    "4gpu",
+    "vit_b_16",
+    1,
+    "Ring|Tree"
+   ],
+   [
+    "4gpu",
+    "vit_b_16",
+    4,
+    "Ring|Tree"
+   ],
+   [
+    "4gpu",
+    "vit_b_16",
+    16,
+    "Ring|Tree"
+   ],
+   [
+    "4gpu",
+    "vit_b_16",
+    25,
+    "Ring|Tree"
+   ],
+   [
+    "4gpu",
+    "vit_b_16",
+    64,
+    "Ring|Tree"
+   ],
+   [
+    "4gpu",
+    "vit_b_16",
+    128,
+    "Ring|Tree"
+   ]
+  ]
+ },
+ "nccl_kernels_in_profiled_runs": {
+  "4gpu|vit_b_16|Auto": [
+   "ncclDevKernel_AllReduce_Sum_f32_RING_LL",
+   "ncclDevKernel_AllReduce_Sum_f32_TREE_LL"
+  ],
+  "4gpu|resnet50|Auto": [
+   "ncclDevKernel_AllReduce_Sum_f32_RING_LL"
+  ]
+ },
+ "H1": [
+  {
+   "setting": "4gpu",
+   "model": "resnet50",
+   "algo": "Auto",
+   "bucket": 1,
+   "delay_req": 10,
+   "A_mean": 0.9154742054320919,
+   "A_ci95": 0.054850359632421415,
+   "n": 2,
+   "p_A_gt_1": 0.9837577070404298,
+   "p_A_lt_1": 0.01624229295957023,
+   "verdict": "A<1 (partial absorption)"
+  },
+  {
+   "setting": "4gpu",
+   "model": "resnet50",
+   "algo": "Auto",
+   "bucket": 1,
+   "delay_req": 40,
+   "A_mean": 0.9916533824167206,
+   "A_ci95": 0.020101191898255075,
+   "n": 2,
+   "p_A_gt_1": 0.9403755773198998,
+   "p_A_lt_1": 0.05962442268010014,
+   "verdict": "A not distinguishable from 1"
+  },
+  {
+   "setting": "4gpu",
+   "model": "resnet50",
+   "algo": "Auto",
+   "bucket": 25,
+   "delay_req": 10,
+   "A_mean": 0.9556275901612041,
+   "A_ci95": 0.2577811275046481,
+   "n": 2,
+   "p_A_gt_1": 0.8634962264694408,
+   "p_A_lt_1": 0.13650377353055915,
+   "verdict": "A not distinguishable from 1"
+  },
+  {
+   "setting": "4gpu",
+   "model": "resnet50",
+   "algo": "Auto",
+   "bucket": 25,
+   "delay_req": 40,
+   "A_mean": 1.0010064312410394,
+   "A_ci95": 0.02475281641868148,
+   "n": 2,
+   "p_A_gt_1": 0.34821109664928734,
+   "p_A_lt_1": 0.6517889033507127,
+   "verdict": "A not distinguishable from 1"
+  },
+  {
+   "setting": "4gpu",
+   "model": "resnet50",
+   "algo": "Auto",
+   "bucket": 128,
+   "delay_req": 10,
+   "A_mean": 0.9655221169813668,
+   "A_ci95": 0.1847577645840852,
+   "n": 2,
+   "p_A_gt_1": 0.8729601789761409,
+   "p_A_lt_1": 0.12703982102385916,
+   "verdict": "A not distinguishable from 1"
+  },
+  {
+   "setting": "4gpu",
+   "model": "resnet50",
+   "algo": "Auto",
+   "bucket": 128,
+   "delay_req": 40,
+   "A_mean": 1.0041709549760593,
+   "A_ci95": 0.03216972668785129,
+   "n": 2,
+   "p_A_gt_1": 0.17365655377991912,
+   "p_A_lt_1": 0.8263434462200809,
+   "verdict": "A not distinguishable from 1"
+  },
+  {
+   "setting": "4gpu",
+   "model": "vit_b_16",
+   "algo": "Auto",
+   "bucket": 1,
+   "delay_req": 10,
+   "A_mean": -0.0013959226014158273,
+   "A_ci95": 0.06837115153128893,
+   "n": 2,
+   "p_A_gt_1": 0.9982896020224247,
+   "p_A_lt_1": 0.0017103979775752924,
+   "verdict": "A<1 (partial absorption)"
+  },
+  {
+   "setting": "4gpu",
+   "model": "vit_b_16",
+   "algo": "Auto",
+   "bucket": 1,
+   "delay_req": 40,
+   "A_mean": 0.7238995752596473,
+   "A_ci95": 0.15426044216921578,
+   "n": 2,
+   "p_A_gt_1": 0.9860124353259566,
+   "p_A_lt_1": 0.013987564674043333,
+   "verdict": "A<1 (partial absorption)"
+  },
+  {
+   "setting": "4gpu",
+   "model": "vit_b_16",
+   "algo": "Auto",
+   "bucket": 25,
+   "delay_req": 10,
+   "A_mean": -0.022951165711651848,
+   "A_ci95": 0.3933415566317609,
+   "n": 2,
+   "p_A_gt_1": 0.9903702128763618,
+   "p_A_lt_1": 0.0096297871236382,
+   "verdict": "A<1 (partial absorption)"
+  },
+  {
+   "setting": "4gpu",
+   "model": "vit_b_16",
+   "algo": "Auto",
+   "bucket": 25,
+   "delay_req": 40,
+   "A_mean": 0.7498183385290862,
+   "A_ci95": 0.15329075662781388,
+   "n": 2,
+   "p_A_gt_1": 0.98466236201077,
+   "p_A_lt_1": 0.015337637989230022,
+   "verdict": "A<1 (partial absorption)"
+  },
+  {
+   "setting": "4gpu",
+   "model": "vit_b_16",
+   "algo": "Auto",
+   "bucket": 128,
+   "delay_req": 10,
+   "A_mean": 0.4859313211199268,
+   "A_ci95": 0.1580273848709738,
+   "n": 2,
+   "p_A_gt_1": 0.9923005309802302,
+   "p_A_lt_1": 0.007699469019769775,
+   "verdict": "A<1 (partial absorption)"
+  },
+  {
+   "setting": "4gpu",
+   "model": "vit_b_16",
+   "algo": "Auto",
+   "bucket": 128,
+   "delay_req": 40,
+   "A_mean": 0.8683988697542366,
+   "A_ci95": 0.033210530667700945,
+   "n": 2,
+   "p_A_gt_1": 0.9936788895260259,
+   "p_A_lt_1": 0.006321110473974149,
+   "verdict": "A<1 (partial absorption)"
+  }
+ ],
+ "H1_slack_model": {
+  "resnet50": {
+   "n": 14,
+   "rmse": 0.13244813312078446,
+   "pearson_r": 0.6805382422683525,
+   "mean_A": 0.9715303426895908,
+   "mean_pred": 0.8774995179145758
+  },
+  "vit_b_16": {
+   "n": 14,
+   "rmse": 0.18864998123235788,
+   "pearson_r": 0.8692390506513251,
+   "mean_A": 0.48437868339790136,
+   "mean_pred": 0.40239491998229365
+  }
+ },
+ "straggler_placement": [],
+ "H2_overview": {
+  "alpha": 0.05,
+  "n_cells": 4,
+  "correction": "Holm step-down across all cells of the same metric",
+  "primary": "rm_anova p_gg_holm (repeated measures, launch = subject, Greenhouse-Geisser corrected)",
+  "A": {
+   "rm_anova_gg_holm": 0,
+   "rm_anova_sphericity_assumed_holm": 2,
+   "rm_anova_gg_unadjusted": 2,
+   "friedman_holm": 0,
+   "secondary_independent_anova_unadjusted": 3,
+   "secondary_independent_anova_holm": 2,
+   "n_tested": 4
+  },
+  "thr_deg_pct": {
+   "rm_anova_gg_holm": 0,
+   "rm_anova_sphericity_assumed_holm": 3,
+   "rm_anova_gg_unadjusted": 3,
+   "friedman_holm": 0,
+   "secondary_independent_anova_unadjusted": 3,
+   "secondary_independent_anova_holm": 3,
+   "n_tested": 4
+  },
+  "energy_inc_pct": {
+   "rm_anova_gg_holm": 0,
+   "rm_anova_sphericity_assumed_holm": 0,
+   "rm_anova_gg_unadjusted": 0,
+   "friedman_holm": 0,
+   "secondary_independent_anova_unadjusted": 1,
+   "secondary_independent_anova_holm": 0,
+   "n_tested": 4
+  }
+ },
+ "H2": [
+  {
+   "setting": "4gpu",
+   "model": "resnet50",
+   "algo": "Auto",
+   "delay_req": 10,
+   "buckets": [
+    1,
+    25,
+    128
+   ],
+   "A": {
+    "n_launches": 2,
+    "n_launches_incomplete_excluded": 0,
+    "by_bucket": {
+     "1": 0.9154742054320919,
+     "25": 0.9556275901612041,
+     "128": 0.9655221169813668
+    },
+    "range": 0.050047911549274904,
+    "rm_anova": {
+     "F": 2.191944003869988,
+     "df1": 2,
+     "df2": 2,
+     "p": 0.3132887039332697,
+     "gg_epsilon": 0.5,
+     "p_gg": 0.3781841505173706,
+     "partial_eta2": 0.6867112960667303,
+     "generalized_eta2": 0.6864825103579301,
+     "p_gg_holm": 0.44298540068827424,
+     "p_holm": 0.3132887039332697
+    },
+    "friedman": {
+     "chi2": 3.0,
+     "p": 0.22313016014842982,
+     "kendalls_w": 0.75,
+     "p_holm": 0.6693904804452895
+    },
+    "contrast_max_vs_min_bucket": {
+     "high_bucket": 128,
+     "low_bucket": 1,
+     "mean_paired_diff": 0.050047911549274904,
+     "ci95": 0.12990740495166378,
+     "n": 2,
+     "cohens_dz": 3.4614088778334415,
+     "note": "post hoc (buckets chosen by their means); descriptive, not a confirmatory test"
+    },
+    "secondary_independent_anova": {
+     "F": 3.2844220802880475,
+     "p": 0.17554669585844013,
+     "note": "ignores the pairing of buckets within a launch; kept only for comparison with the earlier analysis",
+     "p_holm": 0.17554669585844013
+    }
+   },
+   "thr_deg_pct": {
+    "n_launches": 2,
+    "n_launches_incomplete_excluded": 0,
+    "by_bucket": {
+     "1": 10.720051746588897,
+     "25": 10.63001479648012,
+     "128": 9.88655676410433
+    },
+    "range": 0.8334949824845665,
+    "rm_anova": {
+     "F": 6.006623601018343,
+     "df1": 2,
+     "df2": 2,
+     "p": 0.14272209511221068,
+     "gg_epsilon": 0.5,
+     "p_gg": 0.24662884454527345,
+     "partial_eta2": 0.8572779048877893,
+     "generalized_eta2": 0.8572657175430515,
+     "p_gg_holm": 0.24662884454527345,
+     "p_holm": 0.14272209511221068
+    },
+    "friedman": {
+     "chi2": 3.0,
+     "p": 0.22313016014842982,
+     "kendalls_w": 0.75,
+     "p_holm": 0.5413411329464508
+    },
+    "contrast_max_vs_min_bucket": {
+     "high_bucket": 1,
+     "low_bucket": 128,
+     "mean_paired_diff": 0.8334949824845674,
+     "ci95": 0.8913245401579817,
+     "n": 2,
+     "cohens_dz": 8.401715610887644,
+     "note": "post hoc (buckets chosen by their means); descriptive, not a confirmatory test"
+    },
+    "secondary_independent_anova": {
+     "F": 9.0090380123111,
+     "p": 0.053925284394416836,
+     "note": "ignores the pairing of buckets within a launch; kept only for comparison with the earlier analysis",
+     "p_holm": 0.053925284394416836
+    }
+   },
+   "energy_inc_pct": {
+    "n_launches": 2,
+    "n_launches_incomplete_excluded": 0,
+    "by_bucket": {
+     "1": 6.728922823674486,
+     "25": 5.740962055858021,
+     "128": 5.410617533562117
+    },
+    "range": 1.3183052901123684,
+    "rm_anova": {
+     "F": 0.9187971552574885,
+     "df1": 2,
+     "df2": 2,
+     "p": 0.5211598303968756,
+     "gg_epsilon": 0.5,
+     "p_gg": 0.513474790574432,
+     "partial_eta2": 0.4788401696031244,
+     "generalized_eta2": 0.4768629024860756,
+     "p_gg_holm": 1.0,
+     "p_holm": 1.0
+    },
+    "friedman": {
+     "chi2": 3.0,
+     "p": 0.22313016014842982,
+     "kendalls_w": 0.75,
+     "p_holm": 0.6693904804452895
+    },
+    "contrast_max_vs_min_bucket": {
+     "high_bucket": 1,
+     "low_bucket": 128,
+     "mean_paired_diff": 1.3183052901123689,
+     "ci95": 13.887017990259901,
+     "n": 2,
+     "cohens_dz": 0.8529191152802271,
+     "note": "post hoc (buckets chosen by their means); descriptive, not a confirmatory test"
+    },
+    "secondary_independent_anova": {
+     "F": 1.367317204473489,
+     "p": 0.3783757351241396,
+     "note": "ignores the pairing of buckets within a launch; kept only for comparison with the earlier analysis",
+     "p_holm": 1.0
+    }
+   }
+  },
+  {
+   "setting": "4gpu",
+   "model": "resnet50",
+   "algo": "Auto",
+   "delay_req": 40,
+   "buckets": [
+    1,
+    25,
+    128
+   ],
+   "A": {
+    "n_launches": 2,
+    "n_launches_incomplete_excluded": 0,
+    "by_bucket": {
+     "1": 0.9916533824167206,
+     "25": 1.0010064312410394,
+     "128": 1.0041709549760593
+    },
+    "range": 0.012517572559338719,
+    "rm_anova": {
+     "F": 7.6027281058353555,
+     "df1": 2,
+     "df2": 2,
+     "p": 0.11624219523126454,
+     "gg_epsilon": 0.5,
+     "p_gg": 0.22149270034413712,
+     "partial_eta2": 0.8837578047687354,
+     "generalized_eta2": 0.8695770456361798,
+     "p_gg_holm": 0.44298540068827424,
+     "p_holm": 0.23248439046252908
+    },
+    "friedman": {
+     "chi2": 3.0,
+     "p": 0.22313016014842982,
+     "kendalls_w": 0.75,
+     "p_holm": 0.6693904804452895
+    },
+    "contrast_max_vs_min_bucket": {
+     "high_bucket": 128,
+     "low_bucket": 1,
+     "mean_paired_diff": 0.01251757255933883,
+     "ci95": 0.012068534789596217,
+     "n": 2,
+     "cohens_dz": 9.318937989865187,
+     "note": "post hoc (buckets chosen by their means); descriptive, not a confirmatory test"
+    },
+    "secondary_independent_anova": {
+     "F": 10.001042951502617,
+     "p": 0.04710110008440408,
+     "note": "ignores the pairing of buckets within a launch; kept only for comparison with the earlier analysis",
+     "p_holm": 0.09420220016880816
+    }
+   },
+   "thr_deg_pct": {
+    "n_launches": 2,
+    "n_launches_incomplete_excluded": 0,
+    "by_bucket": {
+     "1": 34.38995668172706,
+     "25": 33.27771005247196,
+     "128": 31.382555765010146
+    },
+    "range": 3.007400916716911,
+    "rm_anova": {
+     "F": 570.4642307876718,
+     "df1": 2,
+     "df2": 2,
+     "p": 0.001749890800027257,
+     "gg_epsilon": 0.5,
+     "p_gg": 0.02663865783890282,
+     "partial_eta2": 0.9982501091999727,
+     "generalized_eta2": 0.9978519614716997,
+     "p_gg_holm": 0.10615099593307872,
+     "p_holm": 0.00694666475911348
+    },
+    "friedman": {
+     "chi2": 4.0,
+     "p": 0.1353352832366127,
+     "kendalls_w": 1.0,
+     "p_holm": 0.5413411329464508
+    },
+    "contrast_max_vs_min_bucket": {
+     "high_bucket": 1,
+     "low_bucket": 128,
+     "mean_paired_diff": 3.0074009167169073,
+     "ci95": 0.41073612413096755,
+     "n": 2,
+     "cohens_dz": 65.78536341784644,
+     "note": "post hoc (buckets chosen by their means); descriptive, not a confirmatory test"
+    },
+    "secondary_independent_anova": {
+     "F": 696.8114968546447,
+     "p": 9.955500539513575e-05,
+     "note": "ignores the pairing of buckets within a launch; kept only for comparison with the earlier analysis",
+     "p_holm": 0.000398220021580543
+    }
+   },
+   "energy_inc_pct": {
+    "n_launches": 2,
+    "n_launches_incomplete_excluded": 0,
+    "by_bucket": {
+     "1": 20.415409654803767,
+     "25": 21.09041586145953,
+     "128": 21.452321403391366
+    },
+    "range": 1.036911748587599,
+    "rm_anova": {
+     "F": 0.202367223025194,
+     "df1": 2,
+     "df2": 2,
+     "p": 0.8316926649779827,
+     "gg_epsilon": 0.5,
+     "p_gg": 0.7308809512846219,
+     "partial_eta2": 0.1683073350220174,
+     "generalized_eta2": 0.14430009843839883,
+     "p_gg_holm": 1.0,
+     "p_holm": 1.0
+    },
+    "friedman": {
+     "chi2": 0.0,
+     "p": 1.0,
+     "kendalls_w": 0.0,
+     "p_holm": 1.0
+    },
+    "contrast_max_vs_min_bucket": {
+     "high_bucket": 128,
+     "low_bucket": 1,
+     "mean_paired_diff": 1.0369117485876007,
+     "ci95": 13.68978291068008,
+     "n": 2,
+     "cohens_dz": 0.6805281351855124,
+     "note": "post hoc (buckets chosen by their means); descriptive, not a confirmatory test"
+    },
+    "secondary_independent_anova": {
+     "F": 0.25295100217096034,
+     "p": 0.791557053191111,
+     "note": "ignores the pairing of buckets within a launch; kept only for comparison with the earlier analysis",
+     "p_holm": 1.0
+    }
+   }
+  },
+  {
+   "setting": "4gpu",
+   "model": "vit_b_16",
+   "algo": "Auto",
+   "delay_req": 10,
+   "buckets": [
+    1,
+    25,
+    128
+   ],
+   "A": {
+    "n_launches": 2,
+    "n_launches_incomplete_excluded": 0,
+    "by_bucket": {
+     "1": -0.0013959226014158273,
+     "25": -0.022951165711651848,
+     "128": 0.4859313211199268
+    },
+    "range": 0.5088824868315787,
+    "rm_anova": {
+     "F": 474.6604241814195,
+     "df1": 2,
+     "df2": 2,
+     "p": 0.002102340134184875,
+     "gg_epsilon": 0.5,
+     "p_gg": 0.029200070731871582,
+     "partial_eta2": 0.9978976598658152,
+     "generalized_eta2": 0.9931529623813196,
+     "p_gg_holm": 0.11680028292748633,
+     "p_holm": 0.0084093605367395
+    },
+    "friedman": {
+     "chi2": 3.0,
+     "p": 0.22313016014842982,
+     "kendalls_w": 0.75,
+     "p_holm": 0.6693904804452895
+    },
+    "contrast_max_vs_min_bucket": {
+     "high_bucket": 128,
+     "low_bucket": 25,
+     "mean_paired_diff": 0.5088824868315787,
+     "ci95": 0.2353141717607869,
+     "n": 2,
+     "cohens_dz": 19.429886902668194,
+     "note": "post hoc (buckets chosen by their means); descriptive, not a confirmatory test"
+    },
+    "secondary_independent_anova": {
+     "F": 217.57284340130727,
+     "p": 0.0005665706472296943,
+     "note": "ignores the pairing of buckets within a launch; kept only for comparison with the earlier analysis",
+     "p_holm": 0.002266282588918777
+    }
+   },
+   "thr_deg_pct": {
+    "n_launches": 2,
+    "n_launches_incomplete_excluded": 0,
+    "by_bucket": {
+     "1": -0.010692718784202351,
+     "25": -0.1663691086970651,
+     "128": 3.85230750954251
+    },
+    "range": 4.018676618239575,
+    "rm_anova": {
+     "F": 574.8158970824543,
+     "df1": 2,
+     "df2": 2,
+     "p": 0.00173666618977837,
+     "gg_epsilon": 0.5,
+     "p_gg": 0.02653774898326968,
+     "partial_eta2": 0.9982633338102217,
+     "generalized_eta2": 0.9942641124140796,
+     "p_gg_holm": 0.10615099593307872,
+     "p_holm": 0.00694666475911348
+    },
+    "friedman": {
+     "chi2": 3.0,
+     "p": 0.22313016014842982,
+     "kendalls_w": 0.75,
+     "p_holm": 0.5413411329464508
+    },
+    "contrast_max_vs_min_bucket": {
+     "high_bucket": 128,
+     "low_bucket": 25,
+     "mean_paired_diff": 4.018676618239575,
+     "ci95": 1.7233625459765018,
+     "n": 2,
+     "cohens_dz": 20.951120801562848,
+     "note": "post hoc (buckets chosen by their means); descriptive, not a confirmatory test"
+    },
+    "secondary_independent_anova": {
+     "F": 260.0114012488785,
+     "p": 0.00043441113318123096,
+     "note": "ignores the pairing of buckets within a launch; kept only for comparison with the earlier analysis",
+     "p_holm": 0.0013032333995436928
+    }
+   },
+   "energy_inc_pct": {
+    "n_launches": 2,
+    "n_launches_incomplete_excluded": 0,
+    "by_bucket": {
+     "1": 0.6875045635456449,
+     "25": 0.06691946690522993,
+     "128": 1.042110774418984
+    },
+    "range": 0.9751913075137539,
+    "rm_anova": {
+     "F": 0.9848466684933778,
+     "df1": 2,
+     "df2": 2,
+     "p": 0.503817254941442,
+     "gg_epsilon": 0.5000000000000001,
+     "p_gg": 0.5024301635795941,
+     "partial_eta2": 0.496182745058558,
+     "generalized_eta2": 0.3856583085607105,
+     "p_gg_holm": 1.0,
+     "p_holm": 1.0
+    },
+    "friedman": {
+     "chi2": 3.0,
+     "p": 0.22313016014842982,
+     "kendalls_w": 0.75,
+     "p_holm": 0.6693904804452895
+    },
+    "contrast_max_vs_min_bucket": {
+     "high_bucket": 128,
+     "low_bucket": 25,
+     "mean_paired_diff": 0.975191307513754,
+     "ci95": 11.42193993017624,
+     "n": 2,
+     "cohens_dz": 0.7670979121908503,
+     "note": "post hoc (buckets chosen by their means); descriptive, not a confirmatory test"
+    },
+    "secondary_independent_anova": {
+     "F": 0.9416379693941587,
+     "p": 0.48152072438944105,
+     "note": "ignores the pairing of buckets within a launch; kept only for comparison with the earlier analysis",
+     "p_holm": 1.0
+    }
+   }
+  },
+  {
+   "setting": "4gpu",
+   "model": "vit_b_16",
+   "algo": "Auto",
+   "delay_req": 40,
+   "buckets": [
+    1,
+    25,
+    128
+   ],
+   "A": {
+    "n_launches": 2,
+    "n_launches_incomplete_excluded": 0,
+    "by_bucket": {
+     "1": 0.7238995752596473,
+     "25": 0.7498183385290862,
+     "128": 0.8683988697542366
+    },
+    "range": 0.14449929449458931,
+    "rm_anova": {
+     "F": 197.7644741684555,
+     "df1": 2,
+     "df2": 2,
+     "p": 0.0050310801474135,
+     "gg_epsilon": 0.5000000000000002,
+     "p_gg": 0.04519345835662619,
+     "partial_eta2": 0.9949689198525865,
+     "generalized_eta2": 0.9753697319605089,
+     "p_gg_holm": 0.13558037506987858,
+     "p_holm": 0.0150932404422405
+    },
+    "friedman": {
+     "chi2": 4.0,
+     "p": 0.1353352832366127,
+     "kendalls_w": 1.0,
+     "p_holm": 0.5413411329464508
+    },
+    "contrast_max_vs_min_bucket": {
+     "high_bucket": 128,
+     "low_bucket": 1,
+     "mean_paired_diff": 0.1444992944945892,
+     "ci95": 0.12104991150151485,
+     "n": 2,
+     "cohens_dz": 10.725118552909263,
+     "note": "post hoc (buckets chosen by their means); descriptive, not a confirmatory test"
+    },
+    "secondary_independent_anova": {
+     "F": 59.400677069161176,
+     "p": 0.003865482461510937,
+     "note": "ignores the pairing of buckets within a launch; kept only for comparison with the earlier analysis",
+     "p_holm": 0.011596447384532811
+    }
+   },
+   "thr_deg_pct": {
+    "n_launches": 2,
+    "n_launches_incomplete_excluded": 0,
+    "by_bucket": {
+     "1": 18.145373011261007,
+     "25": 17.813791597423002,
+     "128": 22.306859966968503
+    },
+    "range": 4.493068369545501,
+    "rm_anova": {
+     "F": 384.8372286947293,
+     "df1": 2,
+     "df2": 2,
+     "p": 0.0025917664901931752,
+     "gg_epsilon": 0.5000000000000001,
+     "p_gg": 0.032423943580002126,
+     "partial_eta2": 0.9974082335098068,
+     "generalized_eta2": 0.9881312108169943,
+     "p_gg_holm": 0.10615099593307872,
+     "p_holm": 0.00694666475911348
+    },
+    "friedman": {
+     "chi2": 4.0,
+     "p": 0.1353352832366127,
+     "kendalls_w": 1.0,
+     "p_holm": 0.5413411329464508
+    },
+    "contrast_max_vs_min_bucket": {
+     "high_bucket": 128,
+     "low_bucket": 25,
+     "mean_paired_diff": 4.493068369545501,
+     "ci95": 2.527896372812092,
+     "n": 2,
+     "cohens_dz": 15.969253368082093,
+     "note": "post hoc (buckets chosen by their means); descriptive, not a confirmatory test"
+    },
+    "secondary_independent_anova": {
+     "F": 124.88188924509414,
+     "p": 0.0012930330444819924,
+     "note": "ignores the pairing of buckets within a launch; kept only for comparison with the earlier analysis",
+     "p_holm": 0.0025860660889639848
+    }
+   },
+   "energy_inc_pct": {
+    "n_launches": 2,
+    "n_launches_incomplete_excluded": 0,
+    "by_bucket": {
+     "1": 5.9056662063323895,
+     "25": 6.934081191882768,
+     "128": 11.385685020657533
+    },
+    "range": 5.480018814325144,
+    "rm_anova": {
+     "F": 13.493441235855355,
+     "df1": 2,
+     "df2": 2,
+     "p": 0.06899672643140801,
+     "gg_epsilon": 0.5,
+     "p_gg": 0.16920761142746393,
+     "partial_eta2": 0.931003273568592,
+     "generalized_eta2": 0.9267760513043785,
+     "p_gg_holm": 0.6768304457098557,
+     "p_holm": 0.27598690572563206
+    },
+    "friedman": {
+     "chi2": 4.0,
+     "p": 0.1353352832366127,
+     "kendalls_w": 1.0,
+     "p_holm": 0.5413411329464508
+    },
+    "contrast_max_vs_min_bucket": {
+     "high_bucket": 128,
+     "low_bucket": 1,
+     "mean_paired_diff": 5.480018814325144,
+     "ci95": 19.821275311271428,
+     "n": 2,
+     "cohens_dz": 2.4839983715820884,
+     "note": "post hoc (buckets chosen by their means); descriptive, not a confirmatory test"
+    },
+    "secondary_independent_anova": {
+     "F": 18.9851012096497,
+     "p": 0.01981434486778714,
+     "note": "ignores the pairing of buckets within a launch; kept only for comparison with the earlier analysis",
+     "p_holm": 0.07925737947114855
+    }
+   }
+  }
+ ],
+ "H3_throughput": [
+  {
+   "setting": "4gpu",
+   "model": "resnet50",
+   "metric": "throughput",
+   "delay_req": 0,
+   "n_configs": 3,
+   "homo_opt": "Auto/1MB",
+   "best_at_delay": "Auto/1MB",
+   "homo_value": 3385.4534156006025,
+   "best_value": 3385.4534156006025,
+   "regret_pct": 0.0,
+   "homo_rank": 1,
+   "welch_p_best_vs_homo": null,
+   "differs": false
+  },
+  {
+   "setting": "4gpu",
+   "model": "resnet50",
+   "metric": "throughput",
+   "delay_req": 10,
+   "n_configs": 3,
+   "homo_opt": "Auto/1MB",
+   "best_at_delay": "Auto/1MB",
+   "homo_value": 3022.526605560146,
+   "best_value": 3022.526605560146,
+   "regret_pct": 0.0,
+   "homo_rank": 1,
+   "welch_p_best_vs_homo": null,
+   "differs": false
+  },
+  {
+   "setting": "4gpu",
+   "model": "resnet50",
+   "metric": "throughput",
+   "delay_req": 40,
+   "n_configs": 3,
+   "homo_opt": "Auto/1MB",
+   "best_at_delay": "Auto/1MB",
+   "homo_value": 2221.192738817783,
+   "best_value": 2221.192738817783,
+   "regret_pct": 0.0,
+   "homo_rank": 1,
+   "welch_p_best_vs_homo": null,
+   "differs": false
+  },
+  {
+   "setting": "4gpu",
+   "model": "vit_b_16",
+   "metric": "throughput",
+   "delay_req": 0,
+   "n_configs": 3,
+   "homo_opt": "Auto/128MB",
+   "best_at_delay": "Auto/128MB",
+   "homo_value": 1058.5927404229706,
+   "best_value": 1058.5927404229706,
+   "regret_pct": 0.0,
+   "homo_rank": 1,
+   "welch_p_best_vs_homo": null,
+   "differs": false
+  },
+  {
+   "setting": "4gpu",
+   "model": "vit_b_16",
+   "metric": "throughput",
+   "delay_req": 10,
+   "n_configs": 3,
+   "homo_opt": "Auto/128MB",
+   "best_at_delay": "Auto/128MB",
+   "homo_value": 1017.8126023861854,
+   "best_value": 1017.8126023861854,
+   "regret_pct": 0.0,
+   "homo_rank": 1,
+   "welch_p_best_vs_homo": null,
+   "differs": false
+  },
+  {
+   "setting": "4gpu",
+   "model": "vit_b_16",
+   "metric": "throughput",
+   "delay_req": 40,
+   "n_configs": 3,
+   "homo_opt": "Auto/128MB",
+   "best_at_delay": "Auto/128MB",
+   "homo_value": 822.4540054231805,
+   "best_value": 822.4540054231805,
+   "regret_pct": 0.0,
+   "homo_rank": 1,
+   "welch_p_best_vs_homo": null,
+   "differs": false
+  }
+ ],
+ "H3_images_per_J": [
+  {
+   "setting": "4gpu",
+   "model": "resnet50",
+   "metric": "images_per_J",
+   "delay_req": 0,
+   "n_configs": 3,
+   "homo_opt": "Auto/1MB",
+   "best_at_delay": "Auto/1MB",
+   "homo_value": 2.948257615763689,
+   "best_value": 2.948257615763689,
+   "regret_pct": 0.0,
+   "homo_rank": 1,
+   "welch_p_best_vs_homo": null,
+   "differs": false
+  },
+  {
+   "setting": "4gpu",
+   "model": "resnet50",
+   "metric": "images_per_J",
+   "delay_req": 10,
+   "n_configs": 3,
+   "homo_opt": "Auto/1MB",
+   "best_at_delay": "Auto/1MB",
+   "homo_value": 2.7624168561882563,
+   "best_value": 2.7624168561882563,
+   "regret_pct": 0.0,
+   "homo_rank": 1,
+   "welch_p_best_vs_homo": null,
+   "differs": false
+  },
+  {
+   "setting": "4gpu",
+   "model": "resnet50",
+   "metric": "images_per_J",
+   "delay_req": 40,
+   "n_configs": 3,
+   "homo_opt": "Auto/1MB",
+   "best_at_delay": "Auto/1MB",
+   "homo_value": 2.448459925103437,
+   "best_value": 2.448459925103437,
+   "regret_pct": 0.0,
+   "homo_rank": 1,
+   "welch_p_best_vs_homo": null,
+   "differs": false
+  },
+  {
+   "setting": "4gpu",
+   "model": "vit_b_16",
+   "metric": "images_per_J",
+   "delay_req": 0,
+   "n_configs": 3,
+   "homo_opt": "Auto/128MB",
+   "best_at_delay": "Auto/128MB",
+   "homo_value": 1.017100491087374,
+   "best_value": 1.017100491087374,
+   "regret_pct": 0.0,
+   "homo_rank": 1,
+   "welch_p_best_vs_homo": null,
+   "differs": false
+  },
+  {
+   "setting": "4gpu",
+   "model": "vit_b_16",
+   "metric": "images_per_J",
+   "delay_req": 10,
+   "n_configs": 3,
+   "homo_opt": "Auto/128MB",
+   "best_at_delay": "Auto/128MB",
+   "homo_value": 1.006610724117496,
+   "best_value": 1.006610724117496,
+   "regret_pct": 0.0,
+   "homo_rank": 1,
+   "welch_p_best_vs_homo": null,
+   "differs": false
+  },
+  {
+   "setting": "4gpu",
+   "model": "vit_b_16",
+   "metric": "images_per_J",
+   "delay_req": 40,
+   "n_configs": 3,
+   "homo_opt": "Auto/128MB",
+   "best_at_delay": "Auto/128MB",
+   "homo_value": 0.9131505972316364,
+   "best_value": 0.9131505972316364,
+   "regret_pct": 0.0,
+   "homo_rank": 1,
+   "welch_p_best_vs_homo": null,
+   "differs": false
+  }
+ ]
+}

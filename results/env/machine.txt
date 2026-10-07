@@ -1,0 +1,332 @@
+
+===== $ nvidia-smi
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.173.02             Driver Version: 580.173.02     CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA RTX A6000               Off |   00000000:01:00.0 Off |                  Off |
+| 30%   34C    P8             21W /  300W |       1MiB /  49140MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+|   1  NVIDIA RTX A6000               Off |   00000000:23:00.0 Off |                  Off |
+| 30%   31C    P8             25W /  300W |       1MiB /  49140MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+|   2  NVIDIA RTX A6000               Off |   00000000:41:00.0 Off |                  Off |
+| 30%   32C    P8             22W /  300W |       1MiB /  49140MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+|   3  NVIDIA RTX A6000               Off |   00000000:61:00.0 Off |                  Off |
+| 30%   28C    P8             22W /  300W |       1MiB /  49140MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+|   4  NVIDIA RTX A6000               Off |   00000000:81:00.0 Off |                  Off |
+| 30%   28C    P8             20W /  300W |       1MiB /  49140MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+|   5  NVIDIA RTX A6000               Off |   00000000:A1:00.0 Off |                  Off |
+| 30%   28C    P8             24W /  300W |       1MiB /  49140MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+|   6  NVIDIA RTX A6000               Off |   00000000:C1:00.0 Off |                  Off |
+| 30%   28C    P8             24W /  300W |       1MiB /  49140MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+|   7  NVIDIA RTX A6000               Off |   00000000:E1:00.0 Off |                  Off |
+| 30%   28C    P8             24W /  300W |       1MiB /  49140MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+
+===== $ nvidia-smi topo -m
+	[4mGPU0	GPU1	GPU2	GPU3	GPU4	GPU5	GPU6	GPU7	NIC0	NIC1	CPU Affinity	NUMA Affinity	GPU NUMA ID[0m
+GPU0	 X 	NV4	NODE	NODE	SYS	SYS	SYS	SYS	SYS	SYS	0-63,128-191	0		N/A
+GPU1	NV4	 X 	NODE	NODE	SYS	SYS	SYS	SYS	SYS	SYS	0-63,128-191	0		N/A
+GPU2	NODE	NODE	 X 	NV4	SYS	SYS	SYS	SYS	SYS	SYS	0-63,128-191	0		N/A
+GPU3	NODE	NODE	NV4	 X 	SYS	SYS	SYS	SYS	SYS	SYS	0-63,128-191	0		N/A
+GPU4	SYS	SYS	SYS	SYS	 X 	NV4	NODE	NODE	NODE	NODE	64-127,192-255	1		N/A
+GPU5	SYS	SYS	SYS	SYS	NV4	 X 	NODE	NODE	NODE	NODE	64-127,192-255	1		N/A
+GPU6	SYS	SYS	SYS	SYS	NODE	NODE	 X 	NV4	PHB	PHB	64-127,192-255	1		N/A
+GPU7	SYS	SYS	SYS	SYS	NODE	NODE	NV4	 X 	NODE	NODE	64-127,192-255	1		N/A
+NIC0	SYS	SYS	SYS	SYS	NODE	NODE	PHB	NODE	 X 	PIX				
+NIC1	SYS	SYS	SYS	SYS	NODE	NODE	PHB	NODE	PIX	 X 				
+
+Legend:
+
+  X    = Self
+  SYS  = Connection traversing PCIe as well as the SMP interconnect between NUMA nodes (e.g., QPI/UPI)
+  NODE = Connection traversing PCIe as well as the interconnect between PCIe Host Bridges within a NUMA node
+  PHB  = Connection traversing PCIe as well as a PCIe Host Bridge (typically the CPU)
+  PXB  = Connection traversing multiple PCIe bridges (without traversing the PCIe Host Bridge)
+  PIX  = Connection traversing at most a single PCIe bridge
+  NV#  = Connection traversing a bonded set of # NVLinks
+
+NIC Legend:
+
+  NIC0: mlx5_0
+  NIC1: mlx5_1
+
+
+===== $ nvidia-smi nvlink -s
+GPU 0: NVIDIA RTX A6000 (UUID: GPU-<uuid>)
+	 Link 0: 14.062 GB/s
+	 Link 1: 14.062 GB/s
+	 Link 2: 14.062 GB/s
+	 Link 3: 14.062 GB/s
+GPU 1: NVIDIA RTX A6000 (UUID: GPU-<uuid>)
+	 Link 0: 14.062 GB/s
+	 Link 1: 14.062 GB/s
+	 Link 2: 14.062 GB/s
+	 Link 3: 14.062 GB/s
+GPU 2: NVIDIA RTX A6000 (UUID: GPU-<uuid>)
+	 Link 0: 14.062 GB/s
+	 Link 1: 14.062 GB/s
+	 Link 2: 14.062 GB/s
+	 Link 3: 14.062 GB/s
+GPU 3: NVIDIA RTX A6000 (UUID: GPU-<uuid>)
+	 Link 0: 14.062 GB/s
+	 Link 1: 14.062 GB/s
+	 Link 2: 14.062 GB/s
+	 Link 3: 14.062 GB/s
+GPU 4: NVIDIA RTX A6000 (UUID: GPU-<uuid>)
+	 Link 0: 14.062 GB/s
+	 Link 1: 14.062 GB/s
+	 Link 2: 14.062 GB/s
+	 Link 3: 14.062 GB/s
+GPU 5: NVIDIA RTX A6000 (UUID: GPU-<uuid>)
+	 Link 0: 14.062 GB/s
+	 Link 1: 14.062 GB/s
+	 Link 2: 14.062 GB/s
+	 Link 3: 14.062 GB/s
+GPU 6: NVIDIA RTX A6000 (UUID: GPU-<uuid>)
+	 Link 0: 14.062 GB/s
+	 Link 1: 14.062 GB/s
+	 Link 2: 14.062 GB/s
+	 Link 3: 14.062 GB/s
+GPU 7: NVIDIA RTX A6000 (UUID: GPU-<uuid>)
+	 Link 0: 14.062 GB/s
+	 Link 1: 14.062 GB/s
+	 Link 2: 14.062 GB/s
+	 Link 3: 14.062 GB/s
+
+===== $ nvidia-smi --query-gpu=index,name,pci.bus_id,uuid,driver_version,pcie.link.gen.max,pcie.link.width.max,power.limit,power.default_limit,clocks.max.sm,clocks.max.mem --format=csv
+index, name, pci.bus_id, uuid, driver_version, pcie.link.gen.max, pcie.link.width.max, power.limit [W], power.default_limit [W], clocks.max.sm [MHz], clocks.max.memory [MHz]
+0, NVIDIA RTX A6000, 00000000:01:00.0, GPU-<uuid>, 580.173.02, 4, 16, 300.00 W, 300.00 W, 2100 MHz, 8001 MHz
+1, NVIDIA RTX A6000, 00000000:23:00.0, GPU-<uuid>, 580.173.02, 4, 16, 300.00 W, 300.00 W, 2100 MHz, 8001 MHz
+2, NVIDIA RTX A6000, 00000000:41:00.0, GPU-<uuid>, 580.173.02, 4, 16, 300.00 W, 300.00 W, 2100 MHz, 8001 MHz
+3, NVIDIA RTX A6000, 00000000:61:00.0, GPU-<uuid>, 580.173.02, 4, 16, 300.00 W, 300.00 W, 2100 MHz, 8001 MHz
+4, NVIDIA RTX A6000, 00000000:81:00.0, GPU-<uuid>, 580.173.02, 4, 16, 300.00 W, 300.00 W, 2100 MHz, 8001 MHz
+5, NVIDIA RTX A6000, 00000000:A1:00.0, GPU-<uuid>, 580.173.02, 4, 16, 300.00 W, 300.00 W, 2100 MHz, 8001 MHz
+6, NVIDIA RTX A6000, 00000000:C1:00.0, GPU-<uuid>, 580.173.02, 4, 16, 300.00 W, 300.00 W, 2100 MHz, 8001 MHz
+7, NVIDIA RTX A6000, 00000000:E1:00.0, GPU-<uuid>, 580.173.02, 4, 16, 300.00 W, 300.00 W, 2100 MHz, 8001 MHz
+
+===== $ nvidia-smi --query-compute-apps=gpu_bus_id,pid,process_name,used_memory --format=csv
+gpu_bus_id, pid, process_name, used_gpu_memory [MiB]
+
+===== $ nvcc --version
+<unavailable: [Errno 2] No such file or directory: 'nvcc'>
+===== $ lscpu
+Architecture:                            x86_64
+CPU op-mode(s):                          32-bit, 64-bit
+Address sizes:                           48 bits physical, 48 bits virtual
+Byte Order:                              Little Endian
+CPU(s):                                  256
+On-line CPU(s) list:                     0-255
+Vendor ID:                               AuthenticAMD
+Model name:                              AMD EPYC 7713 64-Core Processor
+CPU family:                              25
+Model:                                   1
+Thread(s) per core:                      2
+Core(s) per socket:                      64
+Socket(s):                               2
+Stepping:                                1
+Frequency boost:                         disabled
+CPU(s) scaling MHz:                      41%
+CPU max MHz:                             3720.7029
+CPU min MHz:                             1500.0000
+BogoMIPS:                                4000.27
+Flags:                                   fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology nonstop_tsc cpuid extd_apicid aperfmperf rapl pni pclmulqdq monitor ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm cmp_legacy svm extapic cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw ibs skinit wdt tce topoext perfctr_core perfctr_nb bpext perfctr_llc mwaitx cpb cat_l3 cdp_l3 hw_pstate ssbd mba ibrs ibpb stibp vmmcall fsgsbase bmi1 avx2 smep bmi2 invpcid cqm rdt_a rdseed adx smap clflushopt clwb sha_ni xsaveopt xsavec xgetbv1 xsaves cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local user_shstk clzero irperf xsaveerptr rdpru wbnoinvd amd_ppin brs arat npt lbrv svm_lock nrip_save tsc_scale vmcb_clean flushbyasid decodeassists pausefilter pfthreshold v_vmsave_vmload vgif v_spec_ctrl umip pku ospke vaes vpclmulqdq rdpid overflow_recov succor smca debug_swap
+Virtualization:                          AMD-V
+L1d cache:                               4 MiB (128 instances)
+L1i cache:                               4 MiB (128 instances)
+L2 cache:                                64 MiB (128 instances)
+L3 cache:                                512 MiB (16 instances)
+NUMA node(s):                            2
+NUMA node0 CPU(s):                       0-63,128-191
+NUMA node1 CPU(s):                       64-127,192-255
+Vulnerability status:                    <redacted>
+
+===== $ numactl -H
+available: 2 nodes (0-1)
+node 0 cpus: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 128 129 130 131 132 133 134 135 136 137 138 139 140 141 142 143 144 145 146 147 148 149 150 151 152 153 154 155 156 157 158 159 160 161 162 163 164 165 166 167 168 169 170 171 172 173 174 175 176 177 178 179 180 181 182 183 184 185 186 187 188 189 190 191
+node 0 size: 515796 MB
+node 0 free: 459730 MB
+node 1 cpus: 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117 118 119 120 121 122 123 124 125 126 127 192 193 194 195 196 197 198 199 200 201 202 203 204 205 206 207 208 209 210 211 212 213 214 215 216 217 218 219 220 221 222 223 224 225 226 227 228 229 230 231 232 233 234 235 236 237 238 239 240 241 242 243 244 245 246 247 248 249 250 251 252 253 254 255
+node 1 size: 516035 MB
+node 1 free: 422751 MB
+node distances:
+node   0   1 
+  0:  10  32 
+  1:  32  10 
+
+===== $ lspci -tv
+-+-[0000:00]-+-00.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse Root Complex
+ |           +-00.2  Advanced Micro Devices, Inc. [AMD] Milan IOMMU
+ |           +-01.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+ |           +-01.1-[01]--+-00.0  NVIDIA Corporation GA102GL [RTX A6000]
+ |           |            \-00.1  NVIDIA Corporation GA102 High Definition Audio Controller
+ |           +-02.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+ |           +-03.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+ |           +-04.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+ |           +-05.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+ |           +-07.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+ |           +-07.1-[02]--+-00.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Function
+ |           |            \-00.2  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PTDMA
+ |           +-08.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+ |           +-08.1-[03]--+-00.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse Reserved SPP
+ |           |            +-00.2  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PTDMA
+ |           |            \-00.3  Advanced Micro Devices, Inc. [AMD] Starship USB 3.0 Host Controller
+ |           +-14.0  Advanced Micro Devices, Inc. [AMD] FCH SMBus Controller
+ |           +-14.3  Advanced Micro Devices, Inc. [AMD] FCH LPC Bridge
+ |           +-18.0  Advanced Micro Devices, Inc. [AMD] Milan Data Fabric; Function 0
+ |           +-18.1  Advanced Micro Devices, Inc. [AMD] Milan Data Fabric; Function 1
+ |           +-18.2  Advanced Micro Devices, Inc. [AMD] Milan Data Fabric; Function 2
+ |           +-18.3  Advanced Micro Devices, Inc. [AMD] Milan Data Fabric; Function 3
+ |           +-18.4  Advanced Micro Devices, Inc. [AMD] Milan Data Fabric; Function 4
+ |           +-18.5  Advanced Micro Devices, Inc. [AMD] Milan Data Fabric; Function 5
+ |           +-18.6  Advanced Micro Devices, Inc. [AMD] Milan Data Fabric; Function 6
+ |           +-18.7  Advanced Micro Devices, Inc. [AMD] Milan Data Fabric; Function 7
+ |           +-19.0  Advanced Micro Devices, Inc. [AMD] Milan Data Fabric; Function 0
+ |           +-19.1  Advanced Micro Devices, Inc. [AMD] Milan Data Fabric; Function 1
+ |           +-19.2  Advanced Micro Devices, Inc. [AMD] Milan Data Fabric; Function 2
+ |           +-19.3  Advanced Micro Devices, Inc. [AMD] Milan Data Fabric; Function 3
+ |           +-19.4  Advanced Micro Devices, Inc. [AMD] Milan Data Fabric; Function 4
+ |           +-19.5  Advanced Micro Devices, Inc. [AMD] Milan Data Fabric; Function 5
+ |           +-19.6  Advanced Micro Devices, Inc. [AMD] Milan Data Fabric; Function 6
+ |           \-19.7  Advanced Micro Devices, Inc. [AMD] Milan Data Fabric; Function 7
+ +-[0000:20]-+-00.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse Root Complex
+ |           +-00.2  Advanced Micro Devices, Inc. [AMD] Milan IOMMU
+ |           +-01.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+ |           +-01.3-[21]----00.0  KIOXIA Corporation NVMe SSD Controller Cx6
+ |           +-01.4-[22]----00.0  KIOXIA Corporation NVMe SSD Controller Cx6
+ |           +-02.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+ |           +-03.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+ |           +-03.1-[23]--+-00.0  NVIDIA Corporation GA102GL [RTX A6000]
+ |           |            \-00.1  NVIDIA Corporation GA102 High Definition Audio Controller
+ |           +-04.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+ |           +-05.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+ |           +-07.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+ |           +-07.1-[24]--+-00.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Function
+ |           |            \-00.2  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PTDMA
+ |           +-08.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+ |           +-08.1-[25]--+-00.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse Reserved SPP
+ |           |            +-00.1  Advanced Micro Devices, Inc. [AMD] Starship/Matisse Cryptographic Coprocessor PSPCPP
+ |           |            +-00.2  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PTDMA
+ |           |            \-00.3  Advanced Micro Devices, Inc. [AMD] Starship USB 3.0 Host Controller
+ |           \-08.3-[26]----00.0  Advanced Micro Devices, Inc. [AMD] FCH SATA Controller [AHCI mode]
+ +-[0000:40]-+-00.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse Root Complex
+ |           +-00.2  Advanced Micro Devices, Inc. [AMD] Milan IOMMU
+ |           +-01.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+ |           +-01.1-[41]--+-00.0  NVIDIA Corporation GA102GL [RTX A6000]
+ |           |            \-00.1  NVIDIA Corporation GA102 High Definition Audio Controller
+ |           +-02.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+ |           +-03.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+ |           +-04.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+ |           +-05.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+ |           +-07.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+ |           +-07.1-[42]--+-00.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Function
+ |           |            \-00.2  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PTDMA
+ |           +-08.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+ |           \-08.1-[43]--+-00.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse Reserved SPP
+ |                        \-00.2  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PTDMA
+ +-[0000:60]-+-00.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse Root Complex
+ |           +-00.2  Advanced Micro Devices, Inc. [AMD] Milan IOMMU
+ |           +-01.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+ |           +-02.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+ |           +-03.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+ |           +-03.1-[61]--+-00.0  NVIDIA Corporation GA102GL [RTX A6000]
+ |           |            \-00.1  NVIDIA Corporation GA102 High Definition Audio Controller
+ |           +-04.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+ |           +-05.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+ |           +-05.2-[62-63]----00.0-[63]----00.0  ASPEED Technology, Inc. ASPEED Graphics Family
+ |           +-07.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+ |           +-07.1-[64]--+-00.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Function
+ |           |            \-00.2  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PTDMA
+ |           +-08.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+ |           \-08.1-[65]--+-00.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse Reserved SPP
+ |                        \-00.2  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PTDMA
+ +-[0000:80]-+-00.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse Root Complex
+ |           +-00.2  Advanced Micro Devices, Inc. [AMD] Milan IOMMU
+ |           +-01.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+ |           +-01.1-[81]--+-00.0  NVIDIA Corporation GA102GL [RTX A6000]
+ |           |            \-00.1  NVIDIA Corporation GA102 High Definition Audio Controller
+ |           +-02.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+ |           +-03.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+ |           +-04.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+ |           +-05.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+ |           +-07.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+ |           +-07.1-[82]--+-00.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Function
+ |           |            \-00.2  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PTDMA
+ |           +-08.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+ |           \-08.1-[83]--+-00.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse Reserved SPP
+ |                        \-00.2  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PTDMA
+ +-[0000:a0]-+-00.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse Root Complex
+ |           +-00.2  Advanced Micro Devices, Inc. [AMD] Milan IOMMU
+ |           +-01.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+ |           +-02.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+ |           +-03.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+ |           +-03.1-[a1]--+-00.0  NVIDIA Corporation GA102GL [RTX A6000]
+ |           |            \-00.1  NVIDIA Corporation GA102 High Definition Audio Controller
+ |           +-04.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+ |           +-05.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+ |           +-07.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+ |           +-07.1-[a2]--+-00.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Function
+ |           |            \-00.2  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PTDMA
+ |           +-08.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+ |           \-08.1-[a3]--+-00.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse Reserved SPP
+ |                        +-00.1  Advanced Micro Devices, Inc. [AMD] Starship/Matisse Cryptographic Coprocessor PSPCPP
+ |                        \-00.2  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PTDMA
+ +-[0000:c0]-+-00.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse Root Complex
+ |           +-00.2  Advanced Micro Devices, Inc. [AMD] Milan IOMMU
+ |           +-01.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+ |           +-01.1-[c1]--+-00.0  NVIDIA Corporation GA102GL [RTX A6000]
+ |           |            \-00.1  NVIDIA Corporation GA102 High Definition Audio Controller
+ |           +-02.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+ |           +-03.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+ |           +-03.1-[c2]--+-00.0  Mellanox Technologies MT28908 Family [ConnectX-6]
+ |           |            \-00.1  Mellanox Technologies MT28908 Family [ConnectX-6]
+ |           +-04.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+ |           +-05.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+ |           +-07.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+ |           +-07.1-[c3]--+-00.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Function
+ |           |            \-00.2  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PTDMA
+ |           +-08.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+ |           \-08.1-[c4]--+-00.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse Reserved SPP
+ |                        \-00.2  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PTDMA
+ \-[0000:e0]-+-00.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse Root Complex
+             +-00.2  Advanced Micro Devices, Inc. [AMD] Milan IOMMU
+             +-01.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+             +-02.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+             +-03.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+             +-03.1-[e1]--+-00.0  NVIDIA Corporation GA102GL [RTX A6000]
+             |            \-00.1  NVIDIA Corporation GA102 High Definition Audio Controller
+             +-04.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+             +-05.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+             +-05.1-[e2]--+-00.0  Intel Corporation I350 Gigabit Network Connection
+             |            \-00.1  Intel Corporation I350 Gigabit Network Connection
+             +-07.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+             +-07.1-[e3]--+-00.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Function
+             |            \-00.2  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PTDMA
+             +-08.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PCIe Dummy Host Bridge
+             \-08.1-[e4]--+-00.0  Advanced Micro Devices, Inc. [AMD] Starship/Matisse Reserved SPP
+                          \-00.2  Advanced Micro Devices, Inc. [AMD] Starship/Matisse PTDMA

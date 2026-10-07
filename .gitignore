@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.ipynb_checkpoints/
+
+# Virtual environments (anchored, so that results/env/ is never ignored)
+/.venv/
+/venv/
+
+# Profiler output (large; keep traces outside the repository or in an archive)
+*.nsys-rep
+*.sqlite
+*.qdrep
+results/nsys/
+
+# Editors and operating systems
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Local, unpublished material (unredacted data, notes, credentials)
+private/
+*.env
+.env
