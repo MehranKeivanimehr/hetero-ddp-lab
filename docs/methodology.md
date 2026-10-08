@@ -211,13 +211,16 @@ allreduce (`--instrument 0` launches, tag `noinstr`); the result is in
   stored as `energy_sampled_j`. The trial table reports the relative disagreement
   (`energy_sampled_vs_counter_pct`).
 
-**Derived energy metrics.**
+**Derived energy metrics.** All energy values are **GPU-board energy** as reported by NVML, summed over
+the GPUs of the job; CPU, DRAM, network, storage and the rest of the system are not measured.
 - `energy_J_step` = Σ_GPUs ΔE / M.
 - `energy_idle_sub_J_step` = (Σ ΔE − Σ P_idle × window) / M. `P_idle` is measured per GPU at launch start
   over 3 s with the CUDA context resident and no kernels running (after a 1 s settle).
 - `images_per_J` = world × batch × M / Σ ΔE.
+- The idle-subtracted value is energy above idle; it still contains compute, communication and waiting and
+  is not a measure of communication or "dynamic" energy alone.
 
-## 8. Profiler and the overlap metric
+## 8. Profiler and the NCCL-compute concurrency metric
 
 When `--profile-steps P` is set (P = 4), each condition runs P extra steps after the timed window under
 `torch.profiler` with CUDA activity only. These steps are excluded from all timing and energy metrics.
@@ -231,24 +234,27 @@ With `U_N` and `U_C` the unions of NCCL and compute intervals on one rank:
 
 - `comm_ms` = |U_N| / P
 - `overlap_ms` = |U_N ∩ U_C| / P
-- **`overlap_ratio` = |U_N ∩ U_C| / |U_N|**: the fraction of NCCL-kernel time during which at least one
-  compute kernel is also running on that GPU
+- **`overlap_ratio` = |U_N ∩ U_C| / |U_N|**: the fraction of NCCL-kernel **residency** during which at
+  least one non-NCCL, non-delay kernel is also running on that GPU. The column keeps its historical name;
+  the documentation calls it *NCCL-compute concurrency*.
 - `exposed_comm_ms` = |U_N \ U_C| / P
 
 Ratios are averaged over the fast (non-straggler) ranks and reported separately for the straggler.
 
 How to read it:
-- A high overlap ratio does **not** mean communication is free. Overlapped compute kernels were
-  measured to run slower: in the 4-GPU ViT setting, the same 1369 kernels per step took about 135 ms
-  on the ranks with the heaviest concurrent NCCL traffic, against about 104-118 ms elsewhere. This is an
-  association in profiler windows; contention is the leading explanation, but no microbenchmark held the
-  compute work and the communicated bytes fixed while toggling overlap.
-- Under delay, the fast ranks' NCCL kernels mostly spin while waiting for the straggler. "Overlap
-  degradation" therefore measures waiting, not a loss of transfer hiding.
+- The metric measures when NCCL kernels are resident, not when data move. NCCL kernels stay resident
+  while they wait for peers, so it is neither a measure of hidden data transfer nor of achieved bandwidth.
+- Under delay, the fast ranks' NCCL kernels mostly wait for the delayed rank. The decline of the ratio
+  under delay ("overlap degradation" in the tables) therefore mostly reflects waiting, not a loss of
+  transfer hiding.
+- Concurrency is not free: in the 4-GPU ViT setting, the same 1369 compute kernels per step took about
+  135 ms on the ranks with the heaviest concurrent NCCL activity, against about 104-118 ms elsewhere. This
+  is an association in profiler windows; contention for SMs and memory bandwidth is a plausible
+  explanation, but no microbenchmark held the compute work and the communicated bytes fixed while varying
+  concurrency, so a causal effect is not established.
 
 Caveats:
-- NCCL kernels spin while waiting for peers, so `comm_ms` on a fast rank includes synchronization wait.
-- Concurrent kernels share SMs, so "overlapped" time is not free.
+- `comm_ms` on a fast rank includes synchronization wait.
 - The profiler adds overhead, which is why it never runs in the timed window.
 
 One window per condition (4 ranks × 4 steps) is profiled per profiled trial. Where only one trial was
@@ -290,8 +296,9 @@ algorithm:
 - Condition summaries: mean and 95% Student-t CI across trials (n = number of launches).
 - **H1**: one-sided one-sample t-tests of trial-level A(δ) against 1 (A > 1 and A < 1), per setting,
   model, algorithm, bucket and δ. These 112 p-values are not corrected for multiple comparisons and are
-  descriptive. The H1 conclusion is a negative one (no amplification), which a correction would only
-  strengthen.
+  descriptive. They are correlated (shared launches, configurations and baselines), so the expected number
+  of chance findings cannot be computed as for independent tests. The H1 conclusion is a negative one (no
+  systematic amplification); a single nominal A > 1 is not treated as a discovery.
 - **H2** (does bucket size change the paired straggler metrics?). One test per cell = (setting, model,
   algorithm, δ) with at least 3 bucket sizes, i.e. 16 cells on 4 GPUs, for each of three metrics: A(δ),
   throughput degradation and energy increase.
@@ -340,3 +347,44 @@ installation paths, network addresses, GPU UUIDs, launch-attempt ids, other tena
 placeholders and removes wall-clock timestamps without touching any measurement. The redacted data
 reproduce the processed tables (`scripts/check_reproducibility.py`). Field-level details are in
 [`data_dictionary.md`](data_dictionary.md).
+
+## 12. Stages, final matrix and commands
+
+**Process.** smoke test → pilot (instrumentation checks, overhead, variance) → NCCL verification → final
+matrix. The pilot showed about 0.2% trial-to-trial step-time variation, 0.3-1.2% instrumentation overhead,
+correct delay calibration and clear Auto/Ring/Tree differences on 4 GPUs. The optional throttle stage
+(power cap on one GPU, best-effort restoration of the original limit) could not run: the permission probe
+returned `NVML_ERROR_NO_PERMISSION` (`results/raw/throttle.jsonl`), so it produced no measurements.
+
+**Final matrix** (5 trials planned everywhere; 60 launches, 810 conditions):
+
+| block | setting | model | NCCL | buckets (MB) | delays (ms) | purpose |
+|---|---|---|---|---|---|---|
+| A | 4gpu | both | Auto | 1, 4, 16, 25, 64, 128 | 0, 5, 10, 20, 40 | H1, H2 |
+| B | 4gpu | both | Ring, Tree | 1, 4, 16, 25, 64, 128 | 0, 10, 40 | H2, H3 |
+| C | 2gpu_nvlink, 2gpu_pcie | both | Auto | 25 | 0, 5, 10, 20, 40 | H1 across settings |
+| D | 4gpu, delay on rank 0 | both | Auto | 25 | 0, 5, 10, 20, 40 | placement control |
+
+Profiler windows: every condition in trial 0, and the 25 MB delay sweeps in every trial.
+
+**Commands** (each stage resumes where it stopped; `--gpus` of the env stage selects the GPUs, and every
+later stage uses the GPU sets recorded in `results/env/topology.json`):
+
+```bash
+python -m hddp.env --gpus 0,1,2,3       # characterization, topology parse, P2P correctness probe
+python -m hddp.run smoke --dry          # print the plan only (no GPU access, nothing written)
+python -m hddp.run smoke                # smoke test (2 GPUs, both models, NCCL verify path)
+python -m hddp.run pilot                # pilot sweep + instrumentation overhead check
+python -m hddp.analyze --stage pilot
+python -m hddp.run verify               # NCCL algorithm verification (NCCL_DEBUG logs)
+python -m hddp.run final                # final matrix (about 95 min on the study host)
+python -m hddp.run throttle --dry       # optional; prints what would be power-capped, touches nothing
+python -m hddp.run throttle             # optional; needs permission to set GPU power limits
+python -m hddp.analyze --stage final
+python -m hddp.figures --stage final
+python scripts/sanitize_data.py         # redact host/user identifiers before sharing new data
+scripts/nsys.sh                         # optional: Nsight traces of 3 conditions (not run in this study)
+```
+
+Do not pass `--test-default-p2p` to the env stage on a shared machine unless you accept that NCCL's default
+PCIe P2P path may hang or return wrong results there.

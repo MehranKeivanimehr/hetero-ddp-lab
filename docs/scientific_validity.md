@@ -28,6 +28,10 @@ joined through host memory because PCIe P2P failed), not as evidence for a gener
 | "Guaranteed restore" of GPU power limits | "Best-effort restoration on normal exit, exceptions, SIGINT, SIGTERM and SIGHUP"; impossible after SIGKILL, host crash or power loss. The throttle stage never ran, so no result is affected |
 | "GPUs run at their 300 W power cap" | "The software power-limit policy (`sw_power_cap`) was reported at the end of 783 of 792 windows"; this constrains clocks and does not imply a continuous 300 W draw |
 | Mechanisms stated as facts (overlap slowdown, speed-up at δ = 5 ms, forward-side waiting, lower waiting power) | Reworded as measured associations with plausible, non-isolated mechanisms |
+| "About 5-6 of 112 cells significant by chance" | The 112 H1 comparisons are correlated, so that count assumed independence; now: some nominal false positives are expected, and the single A > 1 does not establish amplification |
+| "Overlap ratio" read as hidden communication | Defined as NCCL-kernel residency concurrent with compute kernels, which includes waiting; not a transfer or bandwidth measure |
+| Energy described without scope | GPU-board energy (NVML) only; idle-subtracted energy is not communication energy |
+| Summary reported all 60 final launches as `ok` | Launch status is derived from the clean data: 59 clean, 1 incomplete; attempt outcomes are reported separately |
 | Conclusions phrased generally | Limited to this host, topology, workload set and synthetic straggler model |
 | `--dry` ignored for the throttle stage; process-watch start-up outside the cleanup block | Fixed; worker cleanup now also finds re-parented workers through a per-launch environment token |
 | No environment specification, tests or data dictionary | Added `requirements-*.txt`, `tests/`, `scripts/check_reproducibility.py`, `docs/data_dictionary.md` |
@@ -44,9 +48,10 @@ joined through host memory because PCIe P2P failed), not as evidence for a gener
 - **Forward-side waiting in ResNet-50.** `broadcast_buffers=True` synchronizes module buffers at the start
   of forward, consistent with the observed forward-side wait; a `broadcast_buffers=False` control would be
   needed to attribute the whole effect to it.
-- **Overlap slows compute.** An independent study reports an average compute slowdown of about 19% under
-  communication overlap on different hardware and workloads, close to the 17-20% kernel-time increase seen
-  here. This is supportive, not a replication.
+- **Longer compute kernels under concurrent communication.** An independent study reports an average compute
+  slowdown of about 19% under communication overlap on different hardware and workloads, close to the
+  17-20% longer compute-kernel time observed here while NCCL kernels ran concurrently. This is supportive,
+  not a replication, and the observation here is an association, not a controlled causal result.
 - **Topology-dependent collectives.** Work on topology-aware collective synthesis supports comparing Ring,
   Tree and Auto; it does not imply that Tree beats Auto on other systems.
 - **NVML energy.** `nvmlDeviceGetTotalEnergyConsumption` is a cumulative millijoule counter, so differences

@@ -34,9 +34,11 @@
   was not diagnosed: no kernel command line, `dmesg` IOMMU messages, ACS state or `nvidia-smi topo -p2p`
   output was collected. The recorded probe checked only the first result element and only the pair 0-2
   (methodology §1). All experiments therefore use `NCCL_P2P_LEVEL=NVL`: NVLink P2P stays enabled, and
-  non-NVLink paths go through host shared memory (`SHM`). The "2 GPU, PCIe" setting is therefore really
-  "PCIe via host memory", and the 4-GPU ring/tree mixes NVLink and SHM hops. A host where PCIe P2P works
-  would likely show faster PCIe communication and could show different straggler behaviour.
+  non-NVLink paths go through host shared memory (`SHM`). The `2gpu_pcie` setting is therefore NCCL's SHM
+  transport through host memory, not PCIe P2P, and the 4-GPU ring/tree mixes NVLink and SHM hops.
+  Differences between the NVLink and non-NVLink settings combine link and transport differences and cannot
+  be attributed to NVLink vs. PCIe alone. A host where PCIe P2P works would likely show faster non-NVLink
+  communication and could show different straggler behaviour.
 - **Frequent NVML energy-counter queries under-reported energy on this driver (580.173.02).** In a short
   diagnostic, querying `nvmlDeviceGetTotalEnergyConsumption` from a background thread every 5 / 50 /
   100 ms made a steady ~297 W load read as 66 / 243 / 263 W. Polling power, temperature, clocks and
@@ -77,14 +79,18 @@
 - **Straggler placement.** A depends strongly on *which* rank is slow, because only a rank with slack can
   absorb a delay. Only rank 3 (main sweep) and rank 0 (control, 25 MB Auto only) were tested.
 - **H2 confound under Auto.** For ViT-B/16 with NCCL Auto, the 128 MB bucket also changes NCCL's algorithm
-  choice (some buckets switch Ring → Tree). The Auto bucket effect at 128 MB is therefore partly an
-  algorithm effect. The forced-Tree sweep isolates the bucket effect.
+  choice: the verification logs show Tree for 7 of 10 gradient all-reduces at 128 MB, but for at most one
+  per bucket size (≤ 6%) at 1-64 MB. The Auto bucket effect at 128 MB is therefore partly an algorithm
+  effect. The forced-Ring and forced-Tree sweeps hold the algorithm fixed (the protocol is still chosen by
+  NCCL).
 - **Energy is noisy per window.** The counter vs. sampled-power cross-check agrees on average (+0.08%),
   but differs by up to 14% in single 2-4 s windows. Use the across-trial CIs (typically ±1-3% of J/step),
   not single windows.
 - **Statistics.** Five trials per important condition give wide CIs for small effects.
-  - H1 and H3 p-values are not corrected for multiple comparisons and are descriptive. H1 alone has 112
-    cells, so about 5-6 nominal p < 0.05 results are expected by chance; one cell (A = 1.010) reached it.
+  - H1 and H3 p-values are not corrected for multiple comparisons and are descriptive. The 112 H1
+    comparisons are correlated (they share launches, configurations and δ = 0 baselines), so the number of
+    chance findings cannot be computed as for independent tests; some nominal false positives are expected.
+    The single nominally significant A > 1 (A = 1.010 ± 0.012) does not establish systematic amplification.
   - H2 uses a repeated-measures ANOVA with Holm adjustment across 16 cells (methodology §10). With 4-5
     launches and 6 bucket sizes, sphericity cannot be tested; the Greenhouse-Geisser correction is used as
     the primary, conservative choice. The number of significant cells depends on the analysis (10, 13 or
