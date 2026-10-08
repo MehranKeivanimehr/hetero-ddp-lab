@@ -369,8 +369,8 @@
    "kept_attempts_max_condition_dev_pct": 2.9326324638014825
   },
   "forward_time_reference_ms": {
-   "vit_b_16": 22.255735,
-   "resnet50": 24.87113666666666
+   "resnet50": 24.901286666666667,
+   "vit_b_16": 22.254491666666667
   },
   "forward_time_anomalies_in_used_data": [],
   "contaminated_attempts": [

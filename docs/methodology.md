@@ -99,7 +99,11 @@ Detection uses four independent signals:
    (`foreign_pids`).
 4. **Timing check.** Forward compute of ranks that never wait during forward is fixed work and should
    be constant. Those ranks are every ViT rank, and rank 0 (the BN-broadcast root) for ResNet. If a
-   rank's mean forward time exceeds 1.08× the model's median, the attempt is flagged.
+   rank's mean forward time exceeds 1.08× the model's median, the attempt is flagged. The median is taken
+   over all attempts of the stage that finished `ok` (including attempts later excluded for other reasons),
+   so the reference is data-dependent: adding or removing attempts can shift it slightly. On the published
+   data the applied reference (`data_quality.forward_time_reference_ms`) and a reference computed on the kept
+   attempts only differ by at most 0.12%, and neither flags any kept attempt.
 
 Exclusion rules:
 - Any attempt with a signal from 2, 3 or 4 is excluded **as a whole**, not just the flagged windows.

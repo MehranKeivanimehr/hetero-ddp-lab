@@ -51,7 +51,7 @@ def attempt_flags(rows):
     ok = {att(l) for l in launches if l["status"] == "ok" and not l.get("foreign_watch")}
     foreign = {att(r) for r in conds if any(k["foreign_pids"] for k in r["ranks"])}
     foreign |= {att(l) for l in launches if l.get("foreign_watch")}
-    _, anomalies = timing_anomalies([r for r in conds if att(r) in ok])
+    fwd_ref, anomalies = timing_anomalies([r for r in conds if att(r) in ok])
     anomalous = {(a["launch_id"], a["attempt"]) for a in anomalies}
     keep = ok - foreign - anomalous
     step = lambda r: float(np.mean([np.mean(k["steps"]["period"]) for k in r["ranks"]]))
@@ -67,6 +67,7 @@ def attempt_flags(rows):
                 dev[att(r)].append(100 * (step(r) - med) / med)
     outliers = {a for a, v in dev.items() if max(map(abs, v)) > CONSISTENCY_TOL_PCT}
     return dict(ok=ok, foreign=foreign, anomalous=anomalous, baseline_outliers=outliers,
+                forward_time_reference_ms=fwd_ref,
                 good=keep - outliers, baseline_dev_pct={str(a): float(max(v, key=abs)) for a, v in dev.items()})
 
 
@@ -174,11 +175,15 @@ def add_paired(trials):
             t["comm_wait_inc_prof_ms"] = t["exposed_comm_prof_fast"] - b["exposed_comm_prof_fast"]
 
 
-def timing_anomalies(conds, tol=1.08):
+def timing_anomalies(conds, tol=1.08, ref=None):
     """Residual-contamination detector independent of NVML process lists: forward compute of ranks that never
-    wait in forward (all ViT ranks; ResNet rank 0 = BN-broadcast root) is fixed work and should be constant."""
-    ref = {}
-    for m in {r["model"] for r in conds}:
+    wait in forward (all ViT ranks; ResNet rank 0 = BN-broadcast root) is fixed work and should be constant.
+    The reference is the median over `conds` unless an explicit per-model reference is given."""
+    if ref is not None:
+        ref = dict(ref)
+    else:
+        ref = {}
+    for m in {r["model"] for r in conds} - set(ref):
         v = [np.mean(k["steps"]["fwd"]) for r in conds if r["model"] == m for k in r["ranks"]
              if m == "vit_b_16" or k["rank"] == 0]
         ref[m] = float(np.median(v))
@@ -637,7 +642,9 @@ def main():
             kern[f"{t['setting']}|{t['model']}|{t['algo']}"].update(
                 n for n in t["nccl_kernels"].split("|") if "AllReduce" in n)
     outcomes = launch_outcomes(a.stage, rows, conds, load.flags)
-    fwd_ref, anomalies = timing_anomalies(conds)  # on the data actually used (should be empty)
+    # the reference the exclusion filter actually applied (median over all attempts that finished ok), and the
+    # anomalies left in the data used for analysis when checked against it (should be empty)
+    fwd_ref, anomalies = timing_anomalies(conds, ref=load.flags["forward_time_reference_ms"])
     h2_rows = h2(main_trials)
     summary = {
         "stage": a.stage,

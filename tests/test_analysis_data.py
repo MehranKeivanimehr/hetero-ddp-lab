@@ -37,6 +37,16 @@ def test_kept_attempts_within_consistency_tolerance():
     assert SUMMARY["data_quality"]["forward_time_anomalies_in_used_data"] == []
 
 
+def test_reported_forward_reference_is_the_one_applied(final_trials):
+    """Regression: the summary used to show a reference recomputed on the kept data (ResNet-50 24.871 ms), not
+    the one the exclusion filter applied (median over all attempts that finished ok, 24.901 ms)."""
+    applied = analyze.attempt_flags(final_trials["rows"])["forward_time_reference_ms"]
+    assert SUMMARY["data_quality"]["forward_time_reference_ms"] == pytest.approx(applied, rel=1e-12)
+    assert applied["resnet50"] == pytest.approx(24.9013, abs=1e-4)
+    _, left = analyze.timing_anomalies(final_trials["conds"], ref=applied)
+    assert left == []
+
+
 def test_completeness_reports_the_missing_launch():
     c = SUMMARY["completeness"]
     assert (c["planned_conditions"], c["clean_conditions"]) == (810, 792)
