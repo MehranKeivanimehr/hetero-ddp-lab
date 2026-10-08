@@ -44,6 +44,54 @@ def test_completeness_reports_the_missing_launch():
     assert {m.split(" ")[0] for m in c["missing"]} == {"final|4gpu|resnet50|Ring|t1"}
 
 
+def test_launch_status_agrees_with_clean_data(final_trials):
+    """Regression: the summary used to report {"ok": 60} because any attempt with a recorded 'ok' status made its
+    logical launch look clean, although every attempt of final|4gpu|resnet50|Ring|t1 was rejected."""
+    assert SUMMARY["launch_status"] == {"clean": 59, "incomplete": 1}
+    assert SUMMARY["launches"] == {"planned": 60, "clean": 59, "incomplete": 1}
+    (inc,) = SUMMARY["incomplete_launches"]
+    assert (inc["launch_id"], inc["planned_conditions"], inc["clean_conditions"]) == \
+        ("final|4gpu|resnet50|Ring|t1", 18, 0)
+    assert inc["attempts"] and all(a["verdict"] == "excluded" for a in inc["attempts"])
+    used_lids = {r["launch_id"] for r in final_trials["conds"]}
+    assert len(used_lids) == SUMMARY["launches"]["clean"] and inc["launch_id"] not in used_lids
+    att = SUMMARY["attempts"]
+    assert att["accepted"] == len({(r["launch_id"], r.get("attempt")) for r in final_trials["conds"]})
+    assert att["accepted"] + att["excluded"] == att["total"]
+    used = {(r["launch_id"], r.get("attempt")) for r in final_trials["conds"]}
+    assert not used & {(a["launch_id"], a["attempt"]) for a in att["excluded_attempts"]}
+
+
+def _launch(lid, attempt, status):
+    return dict(type="launch", launch_id=lid, attempt=attempt, status=status)
+
+
+def _cond(lid, attempt):
+    return dict(type="cond", launch_id=lid, attempt=attempt)
+
+
+def test_rejected_ok_attempt_does_not_make_launch_clean():
+    """A launch whose only 'ok' attempt is rejected by the analysis is incomplete; a later accepted attempt of
+    another launch makes that one clean, whatever the order of the records."""
+    rows = [_launch("A", "a1", "ok"), _cond("A", "a1"), _cond("A", "a1"),
+            _launch("B", "b1", "contaminated"), _cond("B", "b1"), _cond("B", "b1"),
+            _launch("B", "b2", "ok"), _cond("B", "b2"), _cond("B", "b2"),
+            _cond("C", "c1")]  # interrupted attempt: no launch record
+    flags = dict(ok={("A", "a1"), ("B", "b2")}, foreign={("B", "b1")}, anomalous={("A", "a1")},
+                 baseline_outliers=set(), good={("B", "b2")})
+    used = [r for r in rows if r["type"] == "cond" and (r["launch_id"], r["attempt"]) in flags["good"]]
+    out = analyze.launch_outcomes("smoke", rows, used, flags)
+    assert out["launch_status"] == {"clean": 1, "incomplete": 2}
+    inc = {l["launch_id"]: l for l in out["incomplete_launches"]}
+    assert set(inc) == {"A", "C"} and inc["A"]["clean_conditions"] == 0
+    assert inc["A"]["attempts"][0]["reasons"] == ["forward-time anomaly"]
+    assert inc["C"]["attempts"][0]["reasons"] == ["no launch record (attempt interrupted)"]
+    assert out["attempts"]["recorded_status"] == {"ok": 2, "contaminated": 1}
+    assert out["attempts"]["excluded_by_reason"] == {"forward-time anomaly": 1, "recorded status contaminated": 1,
+                                                     "foreign GPU process": 1,
+                                                     "no launch record (attempt interrupted)": 1}
+
+
 def test_paired_metrics_use_same_launch_baseline(final_trials):
     base = {(t["launch_id"], t["bucket"]): t for t in final_trials["trials"] if t["delay_req"] == 0}
     n = 0

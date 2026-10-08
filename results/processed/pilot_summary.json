@@ -2,14 +2,29 @@
  "stage": "pilot",
  "n_trials": 56,
  "launch_status": {
-  "ok": 12
+  "clean": 12
+ },
+ "launches": {
+  "planned": 12,
+  "clean": 12,
+  "incomplete": 0
  },
  "completeness": {
   "planned_conditions": 56,
   "clean_conditions": 56,
   "missing": []
  },
- "failed_launches": [],
+ "incomplete_launches": [],
+ "attempts": {
+  "total": 12,
+  "accepted": 12,
+  "excluded": 0,
+  "recorded_status": {
+   "ok": 12
+  },
+  "excluded_by_reason": {},
+  "excluded_attempts": []
+ },
  "data_quality": {
   "conditions_excluded_contaminated_or_failed_attempts": {
    "conditions": 0,
@@ -19,8 +34,8 @@
    "kept_attempts_max_condition_dev_pct": null
   },
   "forward_time_reference_ms": {
-   "vit_b_16": 22.20651333333334,
-   "resnet50": 24.811745000000002
+   "resnet50": 24.811745000000002,
+   "vit_b_16": 22.20651333333334
   },
   "forward_time_anomalies_in_used_data": [],
   "contaminated_attempts": [],

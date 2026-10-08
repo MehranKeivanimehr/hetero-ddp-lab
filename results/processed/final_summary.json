@@ -2,7 +2,13 @@
  "stage": "final",
  "n_trials": 792,
  "launch_status": {
-  "ok": 60
+  "clean": 59,
+  "incomplete": 1
+ },
+ "launches": {
+  "planned": 60,
+  "clean": 59,
+  "incomplete": 1
  },
  "completeness": {
   "planned_conditions": 810,
@@ -28,7 +34,318 @@
    "final|4gpu|resnet50|Ring|t1 b=128 d=40"
   ]
  },
- "failed_launches": [],
+ "incomplete_launches": [
+  {
+   "launch_id": "final|4gpu|resnet50|Ring|t1",
+   "planned_conditions": 18,
+   "clean_conditions": 0,
+   "attempts": [
+    {
+     "launch_id": "final|4gpu|resnet50|Ring|t1",
+     "attempt": "attempt-038",
+     "recorded_status": [
+      "ok"
+     ],
+     "conditions_recorded": 18,
+     "verdict": "excluded",
+     "reasons": [
+      "forward-time anomaly"
+     ]
+    },
+    {
+     "launch_id": "final|4gpu|resnet50|Ring|t1",
+     "attempt": "attempt-039",
+     "recorded_status": [
+      "ok",
+      "anomalous_timing"
+     ],
+     "conditions_recorded": 18,
+     "verdict": "excluded",
+     "reasons": [
+      "recorded status anomalous_timing",
+      "forward-time anomaly"
+     ]
+    },
+    {
+     "launch_id": "final|4gpu|resnet50|Ring|t1",
+     "attempt": "attempt-040",
+     "recorded_status": [
+      "ok",
+      "anomalous_timing"
+     ],
+     "conditions_recorded": 18,
+     "verdict": "excluded",
+     "reasons": [
+      "recorded status anomalous_timing",
+      "forward-time anomaly"
+     ]
+    },
+    {
+     "launch_id": "final|4gpu|resnet50|Ring|t1",
+     "attempt": "attempt-041",
+     "recorded_status": [
+      "ok",
+      "anomalous_timing"
+     ],
+     "conditions_recorded": 18,
+     "verdict": "excluded",
+     "reasons": [
+      "recorded status anomalous_timing",
+      "forward-time anomaly"
+     ]
+    },
+    {
+     "launch_id": "final|4gpu|resnet50|Ring|t1",
+     "attempt": "attempt-042",
+     "recorded_status": [
+      "ok",
+      "anomalous_timing"
+     ],
+     "conditions_recorded": 18,
+     "verdict": "excluded",
+     "reasons": [
+      "recorded status anomalous_timing",
+      "forward-time anomaly"
+     ]
+    },
+    {
+     "launch_id": "final|4gpu|resnet50|Ring|t1",
+     "attempt": "attempt-043",
+     "recorded_status": [
+      "ok",
+      "anomalous_timing"
+     ],
+     "conditions_recorded": 18,
+     "verdict": "excluded",
+     "reasons": [
+      "recorded status anomalous_timing",
+      "forward-time anomaly"
+     ]
+    },
+    {
+     "launch_id": "final|4gpu|resnet50|Ring|t1",
+     "attempt": "attempt-044",
+     "recorded_status": [
+      "ok",
+      "anomalous_timing"
+     ],
+     "conditions_recorded": 18,
+     "verdict": "excluded",
+     "reasons": [
+      "recorded status anomalous_timing",
+      "forward-time anomaly"
+     ]
+    },
+    {
+     "launch_id": "final|4gpu|resnet50|Ring|t1",
+     "attempt": "attempt-045",
+     "recorded_status": [],
+     "conditions_recorded": 5,
+     "verdict": "excluded",
+     "reasons": [
+      "no launch record (attempt interrupted)"
+     ]
+    }
+   ]
+  }
+ ],
+ "attempts": {
+  "total": 73,
+  "accepted": 59,
+  "excluded": 14,
+  "recorded_status": {
+   "ok": 67,
+   "contaminated": 3,
+   "anomalous_timing": 6
+  },
+  "excluded_by_reason": {
+   "no launch record (attempt interrupted)": 3,
+   "recorded status contaminated": 3,
+   "foreign GPU process": 4,
+   "forward-time anomaly": 8,
+   "recorded status anomalous_timing": 6
+  },
+  "excluded_attempts": [
+   {
+    "launch_id": "final|2gpu_pcie|resnet50|Auto|t1",
+    "attempt": null,
+    "recorded_status": [],
+    "conditions_recorded": 5,
+    "verdict": "excluded",
+    "reasons": [
+     "no launch record (attempt interrupted)"
+    ]
+   },
+   {
+    "launch_id": "final|2gpu_pcie|resnet50|Auto|t3",
+    "attempt": "attempt-036",
+    "recorded_status": [
+     "contaminated"
+    ],
+    "conditions_recorded": 5,
+    "verdict": "excluded",
+    "reasons": [
+     "recorded status contaminated",
+     "foreign GPU process"
+    ]
+   },
+   {
+    "launch_id": "final|2gpu_pcie|vit_b_16|Auto|t0",
+    "attempt": "attempt-003",
+    "recorded_status": [],
+    "conditions_recorded": 2,
+    "verdict": "excluded",
+    "reasons": [
+     "no launch record (attempt interrupted)"
+    ]
+   },
+   {
+    "launch_id": "final|4gpu|resnet50|Ring|t1",
+    "attempt": "attempt-038",
+    "recorded_status": [
+     "ok"
+    ],
+    "conditions_recorded": 18,
+    "verdict": "excluded",
+    "reasons": [
+     "forward-time anomaly"
+    ]
+   },
+   {
+    "launch_id": "final|4gpu|resnet50|Ring|t1",
+    "attempt": "attempt-039",
+    "recorded_status": [
+     "ok",
+     "anomalous_timing"
+    ],
+    "conditions_recorded": 18,
+    "verdict": "excluded",
+    "reasons": [
+     "recorded status anomalous_timing",
+     "forward-time anomaly"
+    ]
+   },
+   {
+    "launch_id": "final|4gpu|resnet50|Ring|t1",
+    "attempt": "attempt-040",
+    "recorded_status": [
+     "ok",
+     "anomalous_timing"
+    ],
+    "conditions_recorded": 18,
+    "verdict": "excluded",
+    "reasons": [
+     "recorded status anomalous_timing",
+     "forward-time anomaly"
+    ]
+   },
+   {
+    "launch_id": "final|4gpu|resnet50|Ring|t1",
+    "attempt": "attempt-041",
+    "recorded_status": [
+     "ok",
+     "anomalous_timing"
+    ],
+    "conditions_recorded": 18,
+    "verdict": "excluded",
+    "reasons": [
+     "recorded status anomalous_timing",
+     "forward-time anomaly"
+    ]
+   },
+   {
+    "launch_id": "final|4gpu|resnet50|Ring|t1",
+    "attempt": "attempt-042",
+    "recorded_status": [
+     "ok",
+     "anomalous_timing"
+    ],
+    "conditions_recorded": 18,
+    "verdict": "excluded",
+    "reasons": [
+     "recorded status anomalous_timing",
+     "forward-time anomaly"
+    ]
+   },
+   {
+    "launch_id": "final|4gpu|resnet50|Ring|t1",
+    "attempt": "attempt-043",
+    "recorded_status": [
+     "ok",
+     "anomalous_timing"
+    ],
+    "conditions_recorded": 18,
+    "verdict": "excluded",
+    "reasons": [
+     "recorded status anomalous_timing",
+     "forward-time anomaly"
+    ]
+   },
+   {
+    "launch_id": "final|4gpu|resnet50|Ring|t1",
+    "attempt": "attempt-044",
+    "recorded_status": [
+     "ok",
+     "anomalous_timing"
+    ],
+    "conditions_recorded": 18,
+    "verdict": "excluded",
+    "reasons": [
+     "recorded status anomalous_timing",
+     "forward-time anomaly"
+    ]
+   },
+   {
+    "launch_id": "final|4gpu|resnet50|Ring|t1",
+    "attempt": "attempt-045",
+    "recorded_status": [],
+    "conditions_recorded": 5,
+    "verdict": "excluded",
+    "reasons": [
+     "no launch record (attempt interrupted)"
+    ]
+   },
+   {
+    "launch_id": "final|4gpu|vit_b_16|Auto|t1",
+    "attempt": null,
+    "recorded_status": [
+     "ok"
+    ],
+    "conditions_recorded": 30,
+    "verdict": "excluded",
+    "reasons": [
+     "foreign GPU process",
+     "forward-time anomaly"
+    ]
+   },
+   {
+    "launch_id": "final|4gpu|vit_b_16|Auto|t1",
+    "attempt": "attempt-004",
+    "recorded_status": [
+     "contaminated"
+    ],
+    "conditions_recorded": 30,
+    "verdict": "excluded",
+    "reasons": [
+     "recorded status contaminated",
+     "foreign GPU process"
+    ]
+   },
+   {
+    "launch_id": "final|4gpu|vit_b_16|Auto|t2|strag0",
+    "attempt": "attempt-005",
+    "recorded_status": [
+     "contaminated"
+    ],
+    "conditions_recorded": 5,
+    "verdict": "excluded",
+    "reasons": [
+     "recorded status contaminated",
+     "foreign GPU process"
+    ]
+   }
+  ]
+ },
  "data_quality": {
   "conditions_excluded_contaminated_or_failed_attempts": {
    "conditions": 208,
@@ -52,8 +369,8 @@
    "kept_attempts_max_condition_dev_pct": 2.9326324638014825
   },
   "forward_time_reference_ms": {
-   "resnet50": 24.87113666666666,
-   "vit_b_16": 22.255735
+   "vit_b_16": 22.255735,
+   "resnet50": 24.87113666666666
   },
   "forward_time_anomalies_in_used_data": [],
   "contaminated_attempts": [

@@ -150,7 +150,10 @@ The key columns of the trials table, `n_trials`, `throttle`, `foreign_procs`, an
 ### `<stage>_summary.json`
 | key | content |
 |---|---|
-| `n_trials`, `launch_status`, `failed_launches` | counts and the last status of every launch |
+| `n_trials` | number of clean trials (condition windows) in the analysis |
+| `launch_status`, `launches` | logical launches: planned, `clean` (the accepted attempt delivered every planned condition) and `incomplete` (fewer clean conditions than planned, including none). Derived from the clean data, not from the status the orchestrator recorded at run time |
+| `incomplete_launches` | per incomplete logical launch: planned and clean condition counts and every attempt with its verdict |
+| `attempts` | attempt level: total, accepted, excluded, counts of recorded run-time statuses, exclusion reasons, and the list of excluded attempts (`recorded_status`, `conditions_recorded`, `reasons`; an attempt with condition records but no launch record was interrupted) |
 | `completeness` | planned vs. clean conditions and the list of missing (launch, bucket, delay) cells |
 | `data_quality` | excluded attempts by reason (foreign process, forward-time anomaly, cross-trial deviation), forward-time references, throttle reasons, energy cross-check, maximum rank spread and temperature |
 | `delay_calibration` | requested vs. measured delay per (setting, model, δ) |

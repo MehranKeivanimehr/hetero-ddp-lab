@@ -72,12 +72,13 @@ def attempt_flags(rows):
 def load(stage):
     """Only conditions from clean, completed launch attempts (see attempt_flags). Records without an 'attempt'
     field predate attempt tracking and form one attempt per launch id."""
-    rows = [json.loads(l) for l in open(RAW / f"{stage}.jsonl")]
+    with open(RAW / f"{stage}.jsonl") as fh:
+        rows = [json.loads(l) for l in fh]
     launches = [r for r in rows if r["type"] == "launch"]
     conds = [r for r in rows if r["type"] == "cond"]
     f = attempt_flags(rows)
     used = [r for r in conds if (r["launch_id"], r.get("attempt")) in f["good"]]
-    devs = list(f["baseline_dev_pct"].values())
+    load.flags = f
     load.excluded = dict(conditions=len(conds) - len(used),
                          attempts_with_foreign_procs=sorted(map(str, f["foreign"])),
                          attempts_with_forward_time_anomaly=sorted(map(str, f["anomalous"])),
@@ -199,6 +200,71 @@ def completeness(stage, conds):
                for b, d in L["conditions"] if (L["launch_id"], b, d) not in have]
     planned = sum(len(L["conditions"]) for L in run.plan(stage, run.settings()))
     return dict(planned_conditions=planned, clean_conditions=len(have), missing=missing)
+
+
+def planned_launches(stage):
+    """{launch_id: number of planned conditions} for stages with a fixed plan, else None."""
+    from hddp import run
+    if stage not in ("final", "pilot"):
+        return None
+    return {L["launch_id"]: len(L["conditions"]) for L in run.plan(stage, run.settings())}
+
+
+def attempt_verdicts(rows, flags):
+    """One entry per launch attempt: its recorded status(es) and whether the analysis accepted it.
+
+    The status written by the orchestrator at run time is not the final word: an attempt that finished 'ok' can
+    still be rejected by the analysis (foreign process, forward-time anomaly, cross-trial deviation)."""
+    att = lambda r: (r["launch_id"], r.get("attempt"))
+    recorded, n_cond = defaultdict(list), Counter()
+    for r in rows:
+        if r["type"] == "launch":
+            recorded[att(r)].append(r["status"])
+        elif r["type"] == "cond":
+            n_cond[att(r)] += 1
+    out = []
+    for a in sorted(set(recorded) | set(n_cond), key=lambda a: (a[0], str(a[1]))):
+        reasons = [f"recorded status {s}" for s in dict.fromkeys(recorded[a]) if s != "ok"]
+        if not recorded[a]:
+            reasons.append("no launch record (attempt interrupted)")
+        reasons += [why for key, why in (("foreign", "foreign GPU process"), ("anomalous", "forward-time anomaly"),
+                                         ("baseline_outliers", "cross-trial deviation")) if a in flags[key]]
+        accepted = a in flags["good"]
+        out.append(dict(launch_id=a[0], attempt=a[1], recorded_status=list(dict.fromkeys(recorded[a])),
+                        conditions_recorded=n_cond[a], verdict="accepted" if accepted else "excluded",
+                        reasons=[] if accepted else reasons))
+    return out
+
+
+def launch_outcomes(stage, rows, used, flags):
+    """Logical-launch status derived from the clean data that enters the statistics.
+
+    A logical launch is 'clean' only if its accepted attempt delivered every planned condition, and 'incomplete'
+    otherwise (including when no attempt was accepted). Attempt-level outcomes are reported separately, so a
+    rejected attempt with a recorded 'ok' status can no longer make its logical launch look clean."""
+    planned = planned_launches(stage)
+    attempts = attempt_verdicts(rows, flags)
+    clean = Counter(r["launch_id"] for r in used)
+    lids = list(planned) if planned else sorted({a["launch_id"] for a in attempts})
+    status, incomplete = Counter(), []
+    for lid in lids:
+        n_plan = planned[lid] if planned else max((a["conditions_recorded"] for a in attempts
+                                                    if a["launch_id"] == lid), default=0)
+        if clean[lid] == n_plan and n_plan > 0:
+            status["clean"] += 1
+            continue
+        status["incomplete"] += 1
+        incomplete.append(dict(launch_id=lid, planned_conditions=n_plan, clean_conditions=clean[lid],
+                               attempts=[a for a in attempts if a["launch_id"] == lid]))
+    excluded = [a for a in attempts if a["verdict"] == "excluded"]
+    return dict(
+        launch_status=dict(status),
+        launches=dict(planned=len(lids), clean=status["clean"], incomplete=status["incomplete"]),
+        incomplete_launches=incomplete,
+        attempts=dict(total=len(attempts), accepted=len(attempts) - len(excluded), excluded=len(excluded),
+                      recorded_status=dict(Counter(s for a in attempts for s in a["recorded_status"])),
+                      excluded_by_reason=dict(Counter(r for a in excluded for r in a["reasons"])),
+                      excluded_attempts=excluded))
 
 
 def ci95(v):
@@ -549,7 +615,7 @@ def main():
     a = ap.parse_args()
     out = Path(a.outdir)
     out.mkdir(parents=True, exist_ok=True)
-    conds, launches, _ = load(a.stage)
+    conds, launches, rows = load(a.stage)
     trials = [trial_row(r) for r in conds]
     add_paired(trials)
     main_trials = [t for t in trials if t["instrument"] == 1 and t["tag"] == ""]
@@ -564,19 +630,17 @@ def main():
         if t.get("nccl_kernels"):
             kern[f"{t['setting']}|{t['model']}|{t['algo']}"].update(
                 n for n in t["nccl_kernels"].split("|") if "AllReduce" in n)
-    last = {}
-    for l in launches:
-        if l["status"] == "ok" or l["launch_id"] not in last or last[l["launch_id"]]["status"] != "ok":
-            last[l["launch_id"]] = l
+    outcomes = launch_outcomes(a.stage, rows, conds, load.flags)
     fwd_ref, anomalies = timing_anomalies(conds)  # on the data actually used (should be empty)
     h2_rows = h2(main_trials)
     summary = {
         "stage": a.stage,
         "n_trials": len(trials),
-        "launch_status": dict(Counter(l["status"] for l in last.values())),
+        "launch_status": outcomes["launch_status"],
+        "launches": outcomes["launches"],
         "completeness": completeness(a.stage, conds),
-        "failed_launches": [dict(launch_id=l["launch_id"], rc=l["rc"], status=l["status"])
-                            for l in last.values() if l["status"] != "ok"],
+        "incomplete_launches": outcomes["incomplete_launches"],
+        "attempts": outcomes["attempts"],
         "data_quality": {
             "conditions_excluded_contaminated_or_failed_attempts": load.excluded,
             "forward_time_reference_ms": fwd_ref,
