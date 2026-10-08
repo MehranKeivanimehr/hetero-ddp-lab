@@ -112,14 +112,17 @@ PID_SALT = privacy.pid_salt()  # secret for this orchestrator run; foreign PIDs 
 
 
 def gpu_state():
+    """Per-GPU state and compute processes. A failing nvidia-smi raises instead of returning an empty process
+    list, which would make busy GPUs look idle."""
     q = subprocess.run(["nvidia-smi", "--query-gpu=index,pci.bus_id,temperature.gpu,power.draw,utilization.gpu",
-                        "--format=csv,noheader,nounits"], capture_output=True, text=True, timeout=60).stdout
+                        "--format=csv,noheader,nounits"], capture_output=True, text=True, timeout=60,
+                       check=True).stdout
     gpus = {}
     for line in q.strip().splitlines():
         i, bus, temp, pw, util = [c.strip() for c in line.split(",")]
         gpus[bus.lower()[-12:]] = dict(index=int(i), temp=temp, power=pw, util=util, procs=[])
     a = subprocess.run(["nvidia-smi", "--query-compute-apps=gpu_bus_id,pid,process_name,used_memory",
-                        "--format=csv,noheader"], capture_output=True, text=True, timeout=60).stdout
+                        "--format=csv,noheader"], capture_output=True, text=True, timeout=60, check=True).stdout
     for line in a.strip().splitlines():
         bus, pid, name, mem = [c.strip() for c in line.split(",")]
         gpus[bus.lower()[-12:]]["procs"].append(privacy.proc_label(pid, name, mem, PID_SALT))
@@ -138,6 +141,7 @@ class Watch(threading.Thread):
         nvml.init()
         self.nvml, self.p, self.token, self.h = nvml, p, token, {g: nvml.handle(g) for g in gpus}
         self.events, self.halt, self.t0 = [], threading.Event(), time.time()
+        self.errors = 0  # failed NVML polls; stored with the launch so a blind watch is visible in the data
         self.start()
 
     def run(self):
@@ -147,6 +151,7 @@ class Watch(threading.Thread):
                 try:
                     new = set(self.nvml.compute_pids(h)) - ours - foreign
                 except self.nvml.NVMLError:
+                    self.errors += 1
                     continue
                 if new:
                     mine = _launch_pids(self.p, self.token)
@@ -198,6 +203,7 @@ def launch(Lx, out, log, extra_env=None):
         if watch is not None:
             watch.halt.set()
     Lx["foreign_watch"] = watch.events
+    Lx["foreign_watch_errors"] = watch.errors
     _kill(p, token)  # also on success: reaps any worker that outlived torchrun
     CURRENT = None
     return rc
@@ -274,25 +280,26 @@ def parse_nccl_logs(files, conditions):
     env_lines, transports = set(), Counter()
     for fpath in files:
         cur, pending = None, None
-        for line in open(fpath, errors="replace"):
-            if "set by environment" in line:
-                env_lines.add(line.split("NCCL INFO ")[-1].strip())
-            m = re.search(r"via (\S+)", line)
-            if "Channel" in line and m:
-                transports[m.group(1)] += 1
-            m = COLL_RE.search(line)
-            if m:
-                op, count, dt = m.group(1), int(m.group(2)), int(m.group(3))
-                if op == "Broadcast" and 101 <= count < 101 + len(conditions):
-                    cur, pending = count - 101, None  # condition marker (uint8 broadcast, logged as datatype 0)
-                else:
-                    pending = op if count > 1 else None  # count==1 AllReduce is dist.barrier()
-                continue
-            m = TUNE_RE.search(line)
-            if m and pending and cur is not None:
-                key = f"{pending}:{ALGO_NAMES.get(int(m.group(2)))}/{PROTO_NAMES.get(int(m.group(3)))}"
-                per_cond[cur][key] += 1
-                pending = None
+        with open(fpath, errors="replace") as fh:
+            for line in fh:
+                if "set by environment" in line:
+                    env_lines.add(line.split("NCCL INFO ")[-1].strip())
+                m = re.search(r"via (\S+)", line)
+                if "Channel" in line and m:
+                    transports[m.group(1)] += 1
+                m = COLL_RE.search(line)
+                if m:
+                    op, count = m.group(1), int(m.group(2))
+                    if op == "Broadcast" and 101 <= count < 101 + len(conditions):
+                        cur, pending = count - 101, None  # condition marker (uint8 broadcast, logged as datatype 0)
+                    else:
+                        pending = op if count > 1 else None  # count==1 AllReduce is dist.barrier()
+                    continue
+                m = TUNE_RE.search(line)
+                if m and pending and cur is not None:
+                    key = f"{pending}:{ALGO_NAMES.get(int(m.group(2)))}/{PROTO_NAMES.get(int(m.group(3)))}"
+                    per_cond[cur][key] += 1
+                    pending = None
     return per_cond, sorted(env_lines), dict(transports)
 
 
@@ -307,7 +314,7 @@ def run_verify_launch(Lx, out, log):
                 gz.write(f"\n##### {Lx['launch_id']} {fpath.name}\n")
                 gz.write(fpath.read_text(errors="replace"))
     with open(out, "a") as f:
-        for i, (b, d) in enumerate(Lx["conditions"]):
+        for i, (b, _delay) in enumerate(Lx["conditions"]):
             f.write(json.dumps({"type": "nccl_verify", "launch_id": Lx["launch_id"], "setting": Lx["setting"],
                                 "model": Lx["model"], "algo_requested": Lx["algo"], "bucket": b,
                                 "selected": dict(per_cond[i]), "env_lines": env_lines,
@@ -454,17 +461,19 @@ def clean_launch_ids(out):
     if not out.exists():
         return set()
     from hddp.analyze import attempt_flags
-    rows = [json.loads(l) for l in open(out)]
+    with open(out) as f:
+        rows = [json.loads(l) for l in f]
     return {lid for lid, _ in attempt_flags(rows)["good"]} if any(r["type"] == "cond" for r in rows) else \
         {r["launch_id"] for r in rows if r["type"] == "launch" and r["status"] == "ok"}
 
 
 def foreign_in_attempt(out, Lx):
-    for line in open(out):
-        r = json.loads(line)
-        if r.get("type") == "cond" and r.get("attempt") == Lx["attempt"] and \
-                any(k["foreign_pids"] for k in r["ranks"]):
-            return True
+    with open(out) as f:
+        for line in f:
+            r = json.loads(line)
+            if r.get("type") == "cond" and r.get("attempt") == Lx["attempt"] and \
+                    any(k["foreign_pids"] for k in r["ranks"]):
+                return True
     return False
 
 

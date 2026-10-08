@@ -105,7 +105,7 @@ def test_workers_killed_on_interrupt(monkeypatch, tmp_path):
 def test_launch_log_has_no_private_paths(monkeypatch, tmp_path):
     class IdleWatch:
         def __init__(self, *a, **k):
-            self.events = []
+            self.events, self.errors = [], 3
             self.halt = type("E", (), {"set": lambda self: None})()
 
     monkeypatch.setattr(run.subprocess, "Popen", FakePopen)
@@ -117,3 +117,14 @@ def test_launch_log_has_no_private_paths(monkeypatch, tmp_path):
         assert run.launch(Lx, "/home/someone/x/hetero-ddp-lab/results/raw/final.jsonl", log) == 0
     text = (tmp_path / "log").read_text()
     assert "someone" not in text and "<python-env>/bin/python" in text
+    assert Lx["foreign_watch_errors"] == 3  # failed NVML polls of the watch are recorded, not silently dropped
+
+
+def test_gpu_state_fails_loudly(monkeypatch):
+    """A failing nvidia-smi must not be read as 'no processes on any GPU'."""
+    def failing(cmd, **kw):
+        assert kw.get("check") is True
+        raise run.subprocess.CalledProcessError(9, cmd)
+    monkeypatch.setattr(run.subprocess, "run", failing)
+    with pytest.raises(run.subprocess.CalledProcessError):
+        run.gpu_state()

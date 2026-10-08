@@ -40,7 +40,8 @@ def json_diffs(a, b, path=""):
 def csv_diffs(new, old):
     """Cell-by-cell comparison, used only when the bytes differ. Rounded values may differ by one unit in the
     last written digit when a library build changes the last bit of the unrounded value."""
-    a, b = list(csv.reader(open(new, newline=""))), list(csv.reader(open(old, newline="")))
+    with open(new, newline="") as fa, open(old, newline="") as fb:
+        a, b = list(csv.reader(fa)), list(csv.reader(fb))
     if len(a) != len(b) or a[0] != b[0]:
         return [": header or row count differs"]
     out = []

@@ -35,8 +35,9 @@ def _sd(v):
     return float(np.std(v, ddof=1)) if len(v) > 1 else None
 
 
-CONSISTENCY_TOL_PCT = 5.0  # clean attempts: every condition within 2.93% of the cross-trial median;
-#                            degraded attempts: 10-67% (README, data integrity). Any value in (3, 10) selects the same.
+CONSISTENCY_TOL_PCT = 5.0  # kept attempts: every condition within 2.93% of the cross-trial median;
+#                            degraded attempts: 10-67% (see the data-integrity notes). Any value between
+#                            2.93 and 10 selects the same attempts on the published data.
 
 
 def attempt_flags(rows):
@@ -328,7 +329,8 @@ def h1(trials):
     res = []
     for (s, m, a, b) in sorted({(t["setting"], t["model"], t["algo"], t["bucket"]) for t in trials}):
         for d in sorted({t["delay_req"] for t in trials if t["delay_req"] > 0}):
-            A = [t["A"] for t in sel(trials, setting=s, model=m, algo=a, bucket=b, delay_req=d) if t.get("A") is not None]
+            A = [t["A"] for t in sel(trials, setting=s, model=m, algo=a, bucket=b, delay_req=d)
+                 if t.get("A") is not None]
             if len(A) < 2:
                 continue
             mean, h, n = ci95(A)
@@ -454,8 +456,8 @@ def h2_overview(rows, alpha=0.05):
            "correction": "Holm step-down across all cells of the same metric",
            "primary": "rm_anova p_gg_holm (repeated measures, launch = subject, Greenhouse-Geisser corrected)"}
     for mtr in H2_METRICS:
-        cnt = lambda test, key: sum(1 for r in rows if r[mtr].get(test, {}).get(key) is not None
-                                    and r[mtr][test][key] < alpha)
+        def cnt(test, key, mtr=mtr):
+            return sum(1 for r in rows if r[mtr].get(test, {}).get(key) is not None and r[mtr][test][key] < alpha)
         out[mtr] = dict(
             rm_anova_gg_holm=cnt("rm_anova", "p_gg_holm"), rm_anova_sphericity_assumed_holm=cnt("rm_anova", "p_holm"),
             rm_anova_gg_unadjusted=cnt("rm_anova", "p_gg"), friedman_holm=cnt("friedman", "p_holm"),
@@ -499,8 +501,11 @@ def h3(trials, metric="throughput"):
         cfgs = sorted({(t["algo"], t["bucket"]) for t in ts})
         if len(cfgs) < 2:
             continue
-        vals = lambda c, d: [t[metric] for t in ts if (t["algo"], t["bucket"]) == c and t["delay_req"] == d]
-        mean_at = lambda d: {c: float(np.mean(vals(c, d))) for c in cfgs if len(vals(c, d)) >= 2}
+        def vals(c, d, ts=ts):
+            return [t[metric] for t in ts if (t["algo"], t["bucket"]) == c and t["delay_req"] == d]
+
+        def mean_at(d, cfgs=cfgs, vals=vals):  # configurations with >= 2 trials only (a Welch test needs 2)
+            return {c: float(np.mean(vals(c, d))) for c in cfgs if len(vals(c, d)) >= 2}
         m0 = mean_at(0)
         if not m0:
             continue
@@ -593,8 +598,9 @@ def nccl_verification():
     rows = []
     p = RAW / "verify.jsonl"
     if p.exists():
-        for line in open(p):
-            r = json.loads(line)
+        with open(p) as f:
+            records = [json.loads(line) for line in f]
+        for r in records:
             if r["type"] != "nccl_verify":
                 continue
             ar = {k.split(":", 1)[1]: v for k, v in r["selected"].items() if k.startswith("AllReduce:")}
